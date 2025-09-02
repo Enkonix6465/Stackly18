@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home1 from "./Pages/Home1";
@@ -17,38 +17,52 @@ import Wellness from "./Pages/Wellness";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Login from "./Pages/Login";
 import Article from "./Pages/Article";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 
 // Import Dark Mode Context
 import { DarkModeProvider } from "./context/Darkmodecontect";
 
+import React from "react";
+
+function AppContent() {
+  const location = useLocation();
+  const hideHeaderFooter = location.pathname === "/";
+
+  return (
+    <>
+      {!hideHeaderFooter && <Header />}
+      <main className="min-h-[calc(100vh-128px)]">
+        <Routes>
+          <Route path="/home1" element={<Home1 />} />
+          <Route path="/home2" element={<Home2 />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/test" element={<TestMotion />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/nutrition" element={<Nutrition />} />
+          <Route path="/mindful" element={<Mindful />} />
+          <Route path="/sleep" element={<Sleep />} />
+          <Route path="/stress" element={<Stress />} />
+          <Route path="/holistic" element={<Holistic />} />
+          <Route path="/wellness" element={<Wellness />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/Article" element={<Article />} />
+          <Route path="/ScrollToTopButton" element={<ScrollToTopButton />} />
+        </Routes>
+      </main>
+      {!hideHeaderFooter && <Footer />}
+    </>
+  );
+}
+
 function App() {
   return (
     <DarkModeProvider>
       <Router>
-        <Header />
-        <main className="min-h-[calc(100vh-128px)]">
-          <Routes>
-            <Route path="/home1" element={<Home1 />} />
-            <Route path="/home2" element={<Home2 />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/test" element={<TestMotion />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/nutrition" element={<Nutrition />} />
-            <Route path="/mindful" element={<Mindful />} />
-            <Route path="/sleep" element={<Sleep />} />
-            <Route path="/stress" element={<Stress />} />
-            <Route path="/holistic" element={<Holistic />} />
-            <Route path="/wellness" element={<Wellness />} />
-            <Route path="/AdminDashboard" element={<AdminDashboard />} />
-            <Route path="/" element={<Login />} />
-            <Route path="/Article" element={<Article />} />
-
-          </Routes>
-        </main>
-        <Footer />
+        <AppContent />
       </Router>
     </DarkModeProvider>
   );

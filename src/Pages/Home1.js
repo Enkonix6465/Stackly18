@@ -9,6 +9,144 @@ import image8 from "../assets/walk.jpg";
 import image9 from "../assets/B2.jpg";
 import { Link } from "react-router-dom";
 
+// Translations and language helpers
+const TRANSLATIONS = {
+  en: {
+    heroTitle: "Welcome to Health & Wellness",
+    heroSubtitle: "Your journey to a healthier lifestyle starts here",
+    heroCta: "Know More",
+    aboutHeading: "Your Wellness, Your Way",
+    aboutP1:
+      "Take charge of your health and well-being with personalized wellness programs designed just for you. We provide guidance that empowers your body, mind, and spirit.",
+    aboutL1: "Personalized Nutrition & Meal Planning",
+    aboutL2: "Holistic Fitness & Yoga Programs",
+    aboutL3: "Mental Wellness & Mindfulness Practices",
+    aboutCta: "About Us",
+    servicesHeading: "Our Wellness Services",
+    serviceTitle1: "Yoga & Meditation",
+    serviceDesc1:
+      "Find inner peace and improve flexibility with guided yoga and meditation sessions.",
+    serviceTitle2: "Nutrition Plans",
+    serviceDesc2:
+      "Personalized diet plans designed by nutrition experts for a healthier lifestyle.",
+    serviceTitle3: "Fitness Coaching",
+    serviceDesc3:
+      "Get fit with professional coaching tailored to your goals and abilities.",
+    latestArticles: "Latest Articles",
+    latestArticlesDesc:
+      "Stay inspired with wellness tips, nutrition guides, and mindful living practices.",
+    achievementsHeading: "Our Achievements",
+    ach1: "Happy Clients",
+    ach2: "Wellness Programs",
+    ach3: "Expert Coaches",
+    ach4: "Years of Service",
+    contactHeading: "Get in Touch",
+    contactDesc:
+      "Have questions or need guidance on your wellness journey? Reach out to us today.",
+    contactCta: "Contact Us",
+    blog1Title: "5 Tips for Mindful Living",
+    blog1Desc:
+      "Practical tips to help you stay present and reduce stress daily.",
+    blog2Title: "Healthy Smoothie Recipes",
+    blog2Desc:
+      "Try these easy and nutritious smoothie recipes for energy and vitality.",
+    blog3Title: "The Power of Daily Walks",
+    blog3Desc:
+      "Learn how walking 30 minutes a day can transform your health.",
+  },
+  ar: {
+    heroTitle: "مرحبًا بكم في الصحة والعافية",
+    heroSubtitle: "رحلتك نحو نمط حياة أكثر صحة تبدأ من هنا",
+    heroCta: "اعرف المزيد",
+    aboutHeading: "عافيتك بطريقتك",
+    aboutP1:
+      "تولَّ زمام صحتك وعافيتك من خلال برامج عافية مخصصة لك. نحن نقدم إرشادًا يدعم جسدك وعقلك وروحك.",
+    aboutL1: "تغذية شخصية وتخطيط وجبات",
+    aboutL2: "لياقة شاملة وبرامج يوجا",
+    aboutL3: "الصحة النفسية وممارسات اليقظة الذهنية",
+    aboutCta: "معلومات عنا",
+    servicesHeading: "خدمات العافية لدينا",
+    serviceTitle1: "يوجا وتأمل",
+    serviceDesc1:
+      "ابحث عن السلام الداخلي وحسن المرونة من خلال جلسات اليوجا والتأمل الموجهة.",
+    serviceTitle2: "خطط تغذية",
+    serviceDesc2:
+      "خطط غذائية شخصية صممها خبراء تغذية لحياة أكثر صحة.",
+    serviceTitle3: "תدريب ליאקה", 
+    serviceDesc3:
+      "احصل على لياقة بتدريب احترافي مخصص لأهدافك وقدراتك.",
+    latestArticles: "أحدث المقالات",
+    latestArticlesDesc:
+      "ابقَ ملهمًا بنصائح العافية وأدلة التغذية وممارسات اليقظة الذهنية.",
+    achievementsHeading: "إنجازاتنا",
+    ach1: "عملاء سعداء",
+    ach2: "برامج عافية",
+    ach3: "مدربون خبراء",
+    ach4: "سنوات خدمة",
+    contactHeading: "تواصل معنا",
+    contactDesc:
+      "هل لديك أسئلة أو تحتاج لتوجيه في رحلتك نحو العافية؟ تواصل معنا اليوم.",
+    contactCta: "اتصل بنا",
+    blog1Title: "5 نصائح لحياة يقِظة",
+    blog1Desc: "نصائح عملية تساعدك على البقاء حاضرًا وتقليل التوتر يوميًا.",
+    blog2Title: "وصفات عصائر صحية",
+    blog2Desc:
+      "جرّب هذه الوصفات السهلة والمغذية للحصول على طاقة وحيوية.",
+    blog3Title: "قوة المشي اليومي",
+    blog3Desc:
+      "تعرف على كيف يمكن للمشي 30 دقيقة يوميًا أن يغير صحتك.",
+  },
+  he: {
+    heroTitle: "ברוכים הבאים לבריאות ואיכות חיים",
+    heroSubtitle: "המסע לאורח חיים בריא יותר מתחיל כאן",
+    heroCta: "למד עוד",
+    aboutHeading: "הרווחה שלך, בדרך שלך",
+    aboutP1:
+      "קח שליטה על הבריאות והרווחה שלך עם תוכניות אישיות. אנו מעניקים הדרכה המעצימה את הגוף, הנפש והרוח.",
+    aboutL1: "תזונה אישית ותכנון ארוחות",
+    aboutL2: "כושר הוליסטי ותוכניות יוגה",
+    aboutL3: "בריאות נפשית ומיינדפולנס",
+    aboutCta: "עלינו",
+    servicesHeading: "שירותי הרווחה שלנו",
+    serviceTitle1: "יוגה ומדיטציה",
+    serviceDesc1:
+      "מצא שקט פנימי ושפר גמישות עם מפגשי יוגה ומדיטציה מודרכים.",
+    serviceTitle2: "תוכניות תזונה",
+    serviceDesc2:
+      "תוכניות תזונה מותאמות אישית על ידי מומחים לחיים בריאים יותר.",
+    serviceTitle3: "אימון כושר",
+    serviceDesc3:
+      "השג כושר עם אימון מקצועי המותאם למטרותיך ויכולותיך.",
+    latestArticles: "מאמרים אחרונים",
+    latestArticlesDesc:
+      "השאר מעורר השראה עם טיפים לרווחה, מדריכי תזונה ומיינדפולנס.",
+    achievementsHeading: "ההישגים שלנו",
+    ach1: "לקוחות מרוצים",
+    ach2: "תוכניות רווחה",
+    ach3: "מאמנים מומחים",
+    ach4: "שנות שירות",
+    contactHeading: "צרו קשר",
+    contactDesc:
+      "יש לך שאלות או זקוק להכוונה במסע שלך לרווחה? פנה אלינו היום.",
+    contactCta: "צור קשר",
+    blog1Title: "5 טיפים לחיים מודעים",
+    blog1Desc: "טיפים מעשיים שיעזרו לך להישאר נוכח ולהפחית מתח יומיומי.",
+    blog2Title: "מתכוני שייקים בריאים",
+    blog2Desc:
+      "נסה מתכוני שייקים קלים ומזינים לאנרגיה וחיוניות.",
+    blog3Title: "כוחם של צעידות יומיומיות",
+    blog3Desc:
+      "למד כיצד הליכה של 30 דקות ביום יכולה לשנות את בריאותך.",
+  },
+};
+
+const getLanguage = () => {
+  if (typeof window === 'undefined') return 'en';
+  return localStorage.getItem('language') || 'en';
+};
+
+const blogKeys = ['blog1', 'blog2', 'blog3'];
+
 // Dummy blogs
 const blogs = [
   {
@@ -39,6 +177,7 @@ const counts = [500, 120, 45, 10];
 const THEME_KEY = 'theme';
 
 const Home1 = () => {
+  const [language, setLanguage] = useState(getLanguage());
   // Theme state and effect (robust, cross-tab sync, SSR-safe)
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -75,6 +214,23 @@ const Home1 = () => {
     }
   }, []);
 
+  // Sync language changes
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setLanguage(getLanguage());
+    };
+    window.addEventListener('language-changed', handleLanguageChange);
+    window.addEventListener('storage', handleLanguageChange);
+    return () => {
+      window.removeEventListener('language-changed', handleLanguageChange);
+      window.removeEventListener('storage', handleLanguageChange);
+    };
+  }, []);
+
+  const t = (key) => TRANSLATIONS[language]?.[key] || TRANSLATIONS.en[key] || key;
+
+  const achievementLabels = [t('ach1'), t('ach2'), t('ach3'), t('ach4')];
+
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
@@ -110,10 +266,10 @@ const Home1 = () => {
     style={{ color: theme === "dark" ? "#fff" : "#fff" }}
   >
     <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fadeInDown">
-      Welcome to Health & Wellness
+      {t('heroTitle')}
     </h1>
     <p className="text-lg md:text-2xl mb-6 animate-fadeInUp">
-      Your journey to a healthier lifestyle starts here
+      {t('heroSubtitle')}
     </p>
     <a
       href="/about"
@@ -123,7 +279,7 @@ const Home1 = () => {
         "bg-green-500 text-white hover:bg-green-600"
       )}
     >
-      Know More
+      {t('heroCta')}
     </a>
   </div>
 </section>
@@ -139,26 +295,24 @@ const Home1 = () => {
         {/* Text Content */}
         <div>
           <h2 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
-            Your Wellness, Your Way
+            {t('aboutHeading')}
           </h2>
 
           <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
-            Take charge of your health and well-being with personalized wellness
-            programs designed just for you. We provide guidance that empowers
-            your body, mind, and spirit.
+            {t('aboutP1')}
           </p>
 
           <ul className="list-decimal list-inside mb-8 space-y-2 text-gray-700 dark:text-gray-400">
-            <li>Personalized Nutrition & Meal Planning</li>
-            <li>Holistic Fitness & Yoga Programs</li>
-            <li>Mental Wellness & Mindfulness Practices</li>
+            <li>{t('aboutL1')}</li>
+            <li>{t('aboutL2')}</li>
+            <li>{t('aboutL3')}</li>
           </ul>
 
           <Link
             to="/about"
             className="px-6 py-3 rounded-lg shadow-md transition-all duration-300 bg-green-600 text-white hover:bg-green-700 inline-block"
           >
-            About Us
+            {t('aboutCta')}
           </Link>
         </div>
 
@@ -197,11 +351,11 @@ const Home1 = () => {
       "text-gray-900"
     )}
   >
-    Our Wellness Services
+    {t('servicesHeading')}
   </h2>
 
   <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full px-4 md:px-12">
-    {["🧘 Yoga & Meditation", "🥗 Nutrition Plans", "🏋️ Fitness Coaching"].map(
+    {[`🧘 ${t('serviceTitle1')}`, `🥗 ${t('serviceTitle2')}`, `🏋️ ${t('serviceTitle3')}`].map(
       (service, idx) => (
         <div
           key={idx}
@@ -235,12 +389,9 @@ const Home1 = () => {
               "text-gray-600"
             )}
           >
-            {idx === 0 &&
-              "Find inner peace and improve flexibility with guided yoga and meditation sessions."}
-            {idx === 1 &&
-              "Personalized diet plans designed by nutrition experts for a healthier lifestyle."}
-            {idx === 2 &&
-              "Get fit with professional coaching tailored to your goals and abilities."}
+            {idx === 0 && t('serviceDesc1')}
+            {idx === 1 && t('serviceDesc2')}
+            {idx === 2 && t('serviceDesc3')}
           </p>
         </div>
       )
@@ -257,15 +408,14 @@ const Home1 = () => {
             "text-green-400",
             "text-green-700"
           )}>
-            Latest Articles
+            {t('latestArticles')}
           </h2>
           <p className={themedClass(
             "mt-3 max-w-2xl mx-auto",
             "text-gray-300",
             "text-gray-600"
           )}>
-            Stay inspired with wellness tips, nutrition guides, and mindful
-            living practices.
+            {t('latestArticlesDesc')}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
@@ -281,7 +431,7 @@ const Home1 = () => {
               <div className="overflow-hidden">
                 <img
                   src={blog.img}
-                  alt={blog.title}
+                  alt={t(`${blogKeys[index]}Title`)}
                   className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
@@ -291,14 +441,14 @@ const Home1 = () => {
                   "text-white",
                   "text-gray-800"
                 )}>
-                  {blog.title}
+                  {t(`${blogKeys[index]}Title`)}
                 </h3>
                 <p className={themedClass(
                   "mt-3",
                   "text-gray-300",
                   "text-gray-600"
                 )}>
-                  {blog.desc}
+                  {t(`${blogKeys[index]}Desc`)}
                 </p>
                 
               </div>
@@ -328,7 +478,7 @@ const Home1 = () => {
       "text-green-800"
     )}
   >
-    Our Achievements
+    {t('achievementsHeading')}
   </h2>
 
   {/* Cards Grid */}
@@ -364,7 +514,7 @@ const Home1 = () => {
             "text-gray-700 group-hover:text-green-900"
           )}
         >
-          {item.label}
+          {achievementLabels[i]}
         </p>
       </div>
     ))}
@@ -388,12 +538,11 @@ const Home1 = () => {
       {/* Content */}
       <div className="relative z-10 w-full px-6 md:px-12 text-left md:text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-          Get in Touch
+          {t('contactHeading')}
         </h2>
 
         <p className="mb-8 text-lg md:text-xl max-w-2xl mx-auto text-gray-200">
-          Have questions or need guidance on your wellness journey? Reach out to
-          us today.
+          {t('contactDesc')}
         </p>
 
         {/* Contact Button */}
@@ -401,7 +550,7 @@ const Home1 = () => {
           to="/contact"
           className="px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 inline-block text-center bg-[green] hover:bg-green-600 text-white"
         >
-          Contact Us
+          {t('contactCta')}
         </Link>
       </div>
     </section>
