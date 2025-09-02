@@ -1,9 +1,158 @@
 import React, { useEffect, useState } from "react";
-import video from '../assets/Services6.mp4'; // Replace with a detox-related video if available
+import video from '../assets/Services6.mp4';
 import { useNavigate } from "react-router-dom";
-import detoxImage from "../assets/HD.jpg"; // Replace with a detox-related image
+import detoxImage from "../assets/HD.jpg";
 
 const THEME_KEY = "theme";
+const LANGUAGE_KEY = "language";
+
+// Translations for all texts
+const translations = {
+  en: {
+    hero: "Holistic Detox",
+    cleanse: "Cleanse, Rejuvenate & Restore",
+    info: "Natural and holistic methods to detoxify your body, support digestion, and promote overall wellness. Learn cleansing routines and habits for a healthier lifestyle.",
+    tips: [
+      "🍋 Detox Nutrition Tips",
+      "🌿 Herbal & Natural Cleansing",
+      "💧 Hydration & Elimination Support"
+    ],
+    start: "Start Your Detox",
+    servicesTitle: "Our Holistic Detox Services",
+    servicesDesc: "Natural methods and routines to cleanse your body, improve energy, and enhance overall wellbeing.",
+    services: [
+      { icon: "🍋", title: "Detox Nutrition", desc: "Cleansing meal plans for vitality." },
+      { icon: "🌿", title: "Herbal Cleansing", desc: "Support body detox naturally." },
+      { icon: "💧", title: "Hydration Support", desc: "Boost detoxification and elimination." },
+      { icon: "📊", title: "Progress Tracking", desc: "Monitor your wellness improvements." }
+    ],
+    whyTitle: "Why Holistic Detox?",
+    why: [
+      { icon: "🍋", title: "Purified Body", desc: "Eliminate toxins and support overall physical health." },
+      { icon: "🌿", title: "Renewed Energy", desc: "Experience revitalized energy, clarity, and vitality." },
+      { icon: "💧", title: "Enhanced Wellbeing", desc: "Promote long-term wellness and holistic balance." }
+    ],
+    plansTitle: "Holistic Detox Plans",
+    plansDesc: "Choose a program to cleanse, rejuvenate, and restore your mind and body.",
+    plans: [
+      {
+        title: "Basic Plan",
+        price: "$29/month",
+        features: ["Detox Nutrition Tips", "Weekly Guidance", "Email Support"]
+      },
+      {
+        title: "Standard Plan",
+        price: "$59/month",
+        features: ["All Basic Features", "Herbal Cleansing", "Progress Tracking"]
+      },
+      {
+        title: "Premium Plan",
+        price: "$99/month",
+        features: ["Full Holistic Detox Coaching", "Progress Reports", "Priority Support"]
+      }
+    ],
+    ready: "Ready for a Holistic Detox?",
+    readyDesc: "Begin your journey to cleanse, rejuvenate, and restore your body and mind today.",
+    contact: "Contact Us →"
+  },
+  ar: {
+    hero: "التخلص الشامل من السموم",
+    cleanse: "نظف، جدد، واستعد النشاط",
+    info: "طرق طبيعية وشاملة لإزالة السموم من الجسم، دعم الهضم، وتعزيز الصحة العامة. تعلم روتينات التنظيف والعادات لنمط حياة أكثر صحة.",
+    tips: [
+      "🍋 نصائح تغذية التخلص من السموم",
+      "🌿 التنظيف بالأعشاب والطرق الطبيعية",
+      "💧 دعم الترطيب والإخراج"
+    ],
+    start: "ابدأ برنامج التخلص من السموم",
+    servicesTitle: "خدمات التخلص الشامل من السموم",
+    servicesDesc: "طرق وروتينات طبيعية لتنظيف الجسم، تحسين الطاقة، وتعزيز الصحة العامة.",
+    services: [
+      { icon: "🍋", title: "تغذية التخلص من السموم", desc: "خطط وجبات تنظيف للحيوية." },
+      { icon: "🌿", title: "تنظيف بالأعشاب", desc: "دعم إزالة السموم بشكل طبيعي." },
+      { icon: "💧", title: "دعم الترطيب", desc: "تعزيز إزالة السموم والإخراج." },
+      { icon: "📊", title: "متابعة التقدم", desc: "راقب تحسن صحتك." }
+    ],
+    whyTitle: "لماذا التخلص الشامل من السموم؟",
+    why: [
+      { icon: "🍋", title: "جسم نقي", desc: "إزالة السموم ودعم الصحة الجسدية." },
+      { icon: "🌿", title: "طاقة متجددة", desc: "اختبر طاقة وحيوية ووضوح متجدد." },
+      { icon: "💧", title: "رفاهية محسنة", desc: "تعزيز الصحة الشاملة والتوازن." }
+    ],
+    plansTitle: "خطط التخلص الشامل من السموم",
+    plansDesc: "اختر برنامجًا لتنظيف وتجديد واستعادة العقل والجسم.",
+    plans: [
+      {
+        title: "الخطة الأساسية",
+        price: "$29/شهريًا",
+        features: ["نصائح تغذية التخلص من السموم", "إرشاد أسبوعي", "دعم عبر البريد الإلكتروني"]
+      },
+      {
+        title: "الخطة القياسية",
+        price: "$59/شهريًا",
+        features: ["جميع ميزات الأساسية", "تنظيف بالأعشاب", "متابعة التقدم"]
+      },
+      {
+        title: "الخطة المميزة",
+        price: "$99/شهريًا",
+        features: ["تدريب التخلص الشامل من السموم", "تقارير التقدم", "دعم أولوية"]
+      }
+    ],
+    ready: "جاهز للتخلص الشامل من السموم؟",
+    readyDesc: "ابدأ رحلتك لتنظيف وتجديد واستعادة الجسم والعقل اليوم.",
+    contact: "تواصل معنا →"
+  },
+  he: {
+    hero: "ניקוי רעלים הוליסטי",
+    cleanse: "נקה, חדש ושקם",
+    info: "שיטות טבעיות והוליסטיות לניקוי הגוף, תמיכה בעיכול וקידום בריאות כללית. למד רוטינות ניקוי והרגלים לאורח חיים בריא יותר.",
+    tips: [
+      "🍋 טיפים לתזונת ניקוי רעלים",
+      "🌿 ניקוי טבעי וצמחי",
+      "💧 תמיכה בהידרציה והפרשה"
+    ],
+    start: "התחל ניקוי רעלים",
+    servicesTitle: "שירותי ניקוי רעלים הוליסטי",
+    servicesDesc: "שיטות ורוטינות טבעיות לניקוי הגוף, שיפור אנרגיה והגברת רווחה כללית.",
+    services: [
+      { icon: "🍋", title: "תזונת ניקוי רעלים", desc: "תפריטי ניקוי לחיוניות." },
+      { icon: "🌿", title: "ניקוי צמחי", desc: "תמיכה בניקוי הגוף באופן טבעי." },
+      { icon: "💧", title: "תמיכה בהידרציה", desc: "הגבר ניקוי והפרשה." },
+      { icon: "📊", title: "מעקב התקדמות", desc: "עקוב אחרי שיפור הבריאות שלך." }
+    ],
+    whyTitle: "למה ניקוי רעלים הוליסטי?",
+    why: [
+      { icon: "🍋", title: "גוף מטוהר", desc: "הסר רעלים ותמוך בבריאות גופנית." },
+      { icon: "🌿", title: "אנרגיה מחודשת", desc: "חווה אנרגיה, בהירות וחיוניות מחודשת." },
+      { icon: "💧", title: "רווחה מוגברת", desc: "קדם בריאות ארוכת טווח ואיזון הוליסטי." }
+    ],
+    plansTitle: "תוכניות ניקוי רעלים הוליסטי",
+    plansDesc: "בחר תוכנית לניקוי, חידוש ושיקום הגוף והנפש.",
+    plans: [
+      {
+        title: "תוכנית בסיסית",
+        price: "$29/חודש",
+        features: ["טיפים לתזונת ניקוי רעלים", "הכוונה שבועית", "תמיכה במייל"]
+      },
+      {
+        title: "תוכנית סטנדרטית",
+        price: "$59/חודש",
+        features: ["כל התכונות הבסיסיות", "ניקוי צמחי", "מעקב התקדמות"]
+      },
+      {
+        title: "תוכנית פרימיום",
+        price: "$99/חודש",
+        features: ["אימון ניקוי רעלים מלא", "דוחות התקדמות", "תמיכה מועדפת"]
+      }
+    ],
+    ready: "מוכן לניקוי רעלים הוליסטי?",
+    readyDesc: "התחל את המסע שלך לניקוי, חידוש ושיקום הגוף והנפש היום.",
+    contact: "צור קשר →"
+  }
+};
+
+const rtlLangs = ["ar", "he"];
+const t = (key, lang) => translations[lang]?.[key] || translations.en[key];
 
 export default function HolisticDetox() {
   const navigate = useNavigate();
@@ -15,17 +164,32 @@ export default function HolisticDetox() {
     return "light";
   });
 
+  const [language, setLanguage] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(LANGUAGE_KEY) || "en";
+    }
+    return "en";
+  });
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleThemeChange = () => {
-        const newTheme = localStorage.getItem(THEME_KEY) || "light";
-        setTheme(newTheme);
+        setTheme(localStorage.getItem(THEME_KEY) || "light");
       };
       window.addEventListener("theme-changed", handleThemeChange);
       window.addEventListener("storage", handleThemeChange);
+
+      const handleLanguageChange = () => {
+        setLanguage(localStorage.getItem(LANGUAGE_KEY) || "en");
+      };
+      window.addEventListener("language-changed", handleLanguageChange);
+      window.addEventListener("storage", handleLanguageChange);
+
       return () => {
         window.removeEventListener("theme-changed", handleThemeChange);
         window.removeEventListener("storage", handleThemeChange);
+        window.removeEventListener("language-changed", handleLanguageChange);
+        window.removeEventListener("storage", handleLanguageChange);
       };
     }
   }, []);
@@ -33,17 +197,18 @@ export default function HolisticDetox() {
   const themedClass = (base, dark, light) =>
     `${base} ${theme === "dark" ? dark : light}`;
 
+  const dir = rtlLangs.includes(language) ? "rtl" : "ltr";
+
   const handleGetStarted = (path) => {
     navigate(path);
   };
 
   return (
-    <div className={themedClass(
+    <div dir={dir} className={themedClass(
       "text-[1.15rem] md:text-[1.25rem] transition-colors duration-500 min-h-screen",
       "bg-gray-900 text-gray-100",
       "bg-white text-gray-800"
     )}>
-      
       {/* ===== Hero Section ===== */}
       <section className="relative w-full h-screen overflow-hidden">
         <video
@@ -57,7 +222,7 @@ export default function HolisticDetox() {
         </video>
         <div className="relative z-10 flex items-center justify-center w-full h-full bg-black/60">
           <h1 className="text-white text-5xl md:text-6xl font-bold animate-fadeIn">
-            Holistic Detox
+            {t("hero", language)}
           </h1>
         </div>
       </section>
@@ -70,38 +235,25 @@ export default function HolisticDetox() {
             "text-green-200",
             "text-green-700"
           )}>
-            Cleanse, Rejuvenate & Restore
+            {t("cleanse", language)}
           </h2>
           <p className={themedClass(
             "mb-6 leading-relaxed",
             "text-gray-300",
             "text-gray-800"
           )}>
-            Natural and holistic methods to detoxify your body, support digestion, and promote overall wellness. 
-            Learn cleansing routines and habits for a healthier lifestyle.
+            {t("info", language)}
           </p>
           <ul className="space-y-3 mb-6">
-            <li className={themedClass(
-              "p-3 border-l-4 rounded",
-              "bg-green-900 border-green-400",
-              "bg-green-50 border-green-600"
-            )}>
-              🍋 Detox Nutrition Tips
-            </li>
-            <li className={themedClass(
-              "p-3 border-l-4 rounded",
-              "bg-green-900 border-green-400",
-              "bg-green-50 border-green-600"
-            )}>
-              🌿 Herbal & Natural Cleansing
-            </li>
-            <li className={themedClass(
-              "p-3 border-l-4 rounded",
-              "bg-green-900 border-green-400",
-              "bg-green-50 border-green-600"
-            )}>
-              💧 Hydration & Elimination Support
-            </li>
+            {t("tips", language).map((tip, i) => (
+              <li key={i} className={themedClass(
+                "p-3 border-l-4 rounded",
+                "bg-green-900 border-green-400",
+                "bg-green-50 border-green-600"
+              )}>
+                {tip}
+              </li>
+            ))}
           </ul>
           <button
             onClick={() => handleGetStarted("/contact")}
@@ -111,7 +263,7 @@ export default function HolisticDetox() {
               "bg-green-600 text-white hover:bg-green-700"
             )}
           >
-            Start Your Detox
+            {t("start", language)}
           </button>
         </div>
 
@@ -135,23 +287,18 @@ export default function HolisticDetox() {
           "text-green-200",
           "text-green-700"
         )}>
-          Our Holistic Detox Services
+          {t("servicesTitle", language)}
         </h2>
         <p className={themedClass(
           "mb-10",
           "text-green-100",
           "text-gray-700"
         )}>
-          Natural methods and routines to cleanse your body, improve energy, and enhance overall wellbeing.
+          {t("servicesDesc", language)}
         </p>
 
         <div className="grid gap-8 md:grid-cols-4">
-          {[
-            { icon: "🍋", title: "Detox Nutrition", desc: "Cleansing meal plans for vitality." },
-            { icon: "🌿", title: "Herbal Cleansing", desc: "Support body detox naturally." },
-            { icon: "💧", title: "Hydration Support", desc: "Boost detoxification and elimination." },
-            { icon: "📊", title: "Progress Tracking", desc: "Monitor your wellness improvements." }
-          ].map((service, i) => (
+          {t("services", language).map((service, i) => (
             <div
               key={i}
               className={themedClass(
@@ -185,55 +332,29 @@ export default function HolisticDetox() {
           "text-green-200",
           "text-green-700"
         )}>
-          Why Holistic Detox?
+          {t("whyTitle", language)}
         </h2>
         <div className={themedClass(
           "relative border-l-4 pl-8 space-y-10",
           "border-green-400",
           "border-green-600"
         )}>
-          <div>
-            <h3 className={themedClass(
-              "font-bold",
-              "text-green-200",
-              "text-green-700"
-            )}>🍋 Purified Body</h3>
-            <p className={themedClass(
-              "",
-              "text-green-100",
-              "text-gray-700"
-            )}>
-              Eliminate toxins and support overall physical health.
-            </p>
-          </div>
-          <div>
-            <h3 className={themedClass(
-              "font-bold",
-              "text-green-200",
-              "text-green-700"
-            )}>🌿 Renewed Energy</h3>
-            <p className={themedClass(
-              "",
-              "text-green-100",
-              "text-gray-700"
-            )}>
-              Experience revitalized energy, clarity, and vitality.
-            </p>
-          </div>
-          <div>
-            <h3 className={themedClass(
-              "font-bold",
-              "text-green-200",
-              "text-green-700"
-            )}>💧 Enhanced Wellbeing</h3>
-            <p className={themedClass(
-              "",
-              "text-green-100",
-              "text-gray-700"
-            )}>
-              Promote long-term wellness and holistic balance.
-            </p>
-          </div>
+          {t("why", language).map((item, i) => (
+            <div key={i}>
+              <h3 className={themedClass(
+                "font-bold",
+                "text-green-200",
+                "text-green-700"
+              )}>{item.icon} {item.title}</h3>
+              <p className={themedClass(
+                "",
+                "text-green-100",
+                "text-gray-700"
+              )}>
+                {item.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -248,34 +369,18 @@ export default function HolisticDetox() {
           "text-green-200",
           "text-green-700"
         )}>
-          Holistic Detox Plans
+          {t("plansTitle", language)}
         </h2>
         <p className={themedClass(
           "mb-10",
           "text-green-100",
           "text-gray-700"
         )}>
-          Choose a program to cleanse, rejuvenate, and restore your mind and body.
+          {t("plansDesc", language)}
         </p>
 
         <div className="grid gap-8 md:grid-cols-3">
-          {[
-            {
-              title: "Basic Plan",
-              price: "$29/month",
-              features: ["Detox Nutrition Tips", "Weekly Guidance", "Email Support"],
-            },
-            {
-              title: "Standard Plan",
-              price: "$59/month",
-              features: ["All Basic Features", "Herbal Cleansing", "Progress Tracking"],
-            },
-            {
-              title: "Premium Plan",
-              price: "$99/month",
-              features: ["Full Holistic Detox Coaching", "Progress Reports", "Priority Support"],
-            },
-          ].map((plan, i) => (
+          {t("plans", language).map((plan, i) => (
             <div
               key={i}
               className={themedClass(
@@ -318,7 +423,7 @@ export default function HolisticDetox() {
                   "bg-green-600 text-white"
                 )}
               >
-                Get Started
+                {t("start", language)}
               </button>
             </div>
           ))}
@@ -331,13 +436,12 @@ export default function HolisticDetox() {
         style={{ backgroundImage: `url(${detoxImage})` }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
-        
         <div className="relative z-10 text-center max-w-2xl px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready for a Holistic Detox?
+            {t("ready", language)}
           </h2>
           <p className="text-white/90 mb-6">
-            Begin your journey to cleanse, rejuvenate, and restore your body and mind today.
+            {t("readyDesc", language)}
           </p>
           <button
             onClick={() => handleGetStarted("/contact")}
@@ -347,7 +451,7 @@ export default function HolisticDetox() {
               "bg-green-600 text-white hover:bg-green-700"
             )}
           >
-            Contact Us →
+            {t("contact", language)}
           </button>
         </div>
       </section>

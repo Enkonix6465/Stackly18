@@ -13,6 +13,68 @@ import {
 } from "chart.js";
 
 const THEME_KEY = "theme";
+const LANGUAGE_KEY = "language";
+
+// Translations for all texts
+const translations = {
+  en: {
+    userTable: "User Data Table",
+    name: "Name",
+    email: "Email",
+    loginDate: "Login Date/Time",
+    loginGraph: "Login Activity Graph",
+    loginGraphTitle: "User Logins Per Day",
+    signupTrends: "User Signup Trends",
+    signupGraphTitle: "User Signup Trends",
+    activeUsers: "Active Users",
+    activeUsersDesc: "Logged in last 30 days",
+    inactiveUsers: "Inactive Users",
+    inactiveUsersDesc: "Not logged in last 30 days",
+    recentLogin: "Recent Login Activity",
+    signupGrowth: "Signup Growth This Week",
+    compared: "compared to previous week",
+    noUsers: "No users found.",
+  },
+  ar: {
+    userTable: "جدول بيانات المستخدمين",
+    name: "الاسم",
+    email: "البريد الإلكتروني",
+    loginDate: "تاريخ/وقت تسجيل الدخول",
+    loginGraph: "رسم بياني لنشاط تسجيل الدخول",
+    loginGraphTitle: "تسجيلات الدخول اليومية",
+    signupTrends: "اتجاهات تسجيل المستخدمين",
+    signupGraphTitle: "اتجاهات تسجيل المستخدمين",
+    activeUsers: "المستخدمون النشطون",
+    activeUsersDesc: "سجلوا الدخول خلال آخر 30 يومًا",
+    inactiveUsers: "المستخدمون غير النشطين",
+    inactiveUsersDesc: "لم يسجلوا الدخول خلال آخر 30 يومًا",
+    recentLogin: "نشاط تسجيل الدخول الأخير",
+    signupGrowth: "نمو التسجيل هذا الأسبوع",
+    compared: "مقارنة بالأسبوع السابق",
+    noUsers: "لا يوجد مستخدمون.",
+  },
+  he: {
+    userTable: "טבלת נתוני משתמשים",
+    name: "שם",
+    email: "אימייל",
+    loginDate: "תאריך/שעת כניסה",
+    loginGraph: "גרף פעילות כניסה",
+    loginGraphTitle: "כניסות משתמשים ביום",
+    signupTrends: "מגמות הרשמת משתמשים",
+    signupGraphTitle: "מגמות הרשמת משתמשים",
+    activeUsers: "משתמשים פעילים",
+    activeUsersDesc: "התחברו ב-30 הימים האחרונים",
+    inactiveUsers: "משתמשים לא פעילים",
+    inactiveUsersDesc: "לא התחברו ב-30 הימים האחרונים",
+    recentLogin: "פעילות כניסה אחרונה",
+    signupGrowth: "צמיחת הרשמות השבוע",
+    compared: "בהשוואה לשבוע הקודם",
+    noUsers: "לא נמצאו משתמשים.",
+  },
+};
+
+const t = (key, lang) => translations[lang]?.[key] || translations.en[key];
+const rtlLangs = ["ar", "he"];
 
 ChartJS.register(
   CategoryScale,
@@ -68,6 +130,14 @@ const AdminDashboard = () => {
     return "light";
   });
 
+  // Language state and effect
+  const [language, setLanguage] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(LANGUAGE_KEY) || "en";
+    }
+    return "en";
+  });
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleThemeChange = () => {
@@ -76,16 +146,28 @@ const AdminDashboard = () => {
       };
       window.addEventListener("theme-changed", handleThemeChange);
       window.addEventListener("storage", handleThemeChange);
+
+      // Listen for language changes from header
+      const handleLanguageChange = () => {
+        const newLang = localStorage.getItem(LANGUAGE_KEY) || "en";
+        setLanguage(newLang);
+      };
+      window.addEventListener("language-changed", handleLanguageChange);
+      window.addEventListener("storage", handleLanguageChange);
+
       return () => {
         window.removeEventListener("theme-changed", handleThemeChange);
         window.removeEventListener("storage", handleThemeChange);
+        window.removeEventListener("language-changed", handleLanguageChange);
+        window.removeEventListener("storage", handleLanguageChange);
       };
     }
   }, []);
 
-  // Helper for theme-based class
   const themedClass = (base, dark, light) =>
     `${base} ${theme === "dark" ? dark : light}`;
+
+  const dir = rtlLangs.includes(language) ? "rtl" : "ltr";
 
   const [allUserData, setAllUserData] = useState([]);
   const [loginStats, setLoginStats] = useState({ labels: [], data: [] });
@@ -151,19 +233,19 @@ const AdminDashboard = () => {
 
   if (!allUserData.length) {
     return (
-      <div className={themedClass(
+      <div dir={dir} className={themedClass(
         "min-h-screen flex items-center justify-center",
         "bg-gray-900 text-green-100",
         "bg-green-50 text-green-900"
       )}>
-        <p style={{ fontSize: 18, textAlign: "center" }}>No users found.</p>
+        <p style={{ fontSize: 18, textAlign: "center" }}>{t("noUsers", language)}</p>
       </div>
     );
   }
 
   const loginData = {
     labels: loginStats.labels,
-    datasets: [{ label: "Logins", data: loginStats.data, backgroundColor: "rgba(0,77,0,0.8)", borderRadius: 4 }],
+    datasets: [{ label: t("loginGraphTitle", language), data: loginStats.data, backgroundColor: "rgba(0,77,0,0.8)", borderRadius: 4 }],
   };
   const chartOptions = {
     responsive: true,
@@ -179,13 +261,13 @@ const AdminDashboard = () => {
   };
   const signupData = {
     labels: signupStats.labels,
-    datasets: [{ label: "Signups", data: signupStats.data, fill: false, borderColor: "rgba(0,77,0,0.9)", backgroundColor: "rgba(0,77,0,0.5)", tension: 0.3, pointRadius: 6 }],
+    datasets: [{ label: t("signupGraphTitle", language), data: signupStats.data, fill: false, borderColor: "rgba(0,77,0,0.9)", backgroundColor: "rgba(0,77,0,0.5)", tension: 0.3, pointRadius: 6 }],
   };
 
   return (
     <>
       <style>{styles.keyframes}</style>
-      <div className={themedClass(
+      <div dir={dir} className={themedClass(
         "min-h-screen py-10 px-2",
         "bg-gray-900 text-green-100",
         "bg-green-50 text-green-900"
@@ -206,7 +288,7 @@ const AdminDashboard = () => {
               "mb-6 font-bold text-2xl",
               "text-green-200",
               "text-green-700"
-            )}>User Data Table</h2>
+            )}>{t("userTable", language)}</h2>
             <div style={{ overflowX: "auto" }}>
               <table className={themedClass(
                 "w-full border-collapse min-w-[600px] text-base",
@@ -219,9 +301,9 @@ const AdminDashboard = () => {
                     "bg-green-800 text-white",
                     "bg-green-600 text-white"
                   )}>
-                    <th className="p-3 text-left">Name</th>
-                    <th className="p-3 text-left">Email</th>
-                    <th className="p-3 text-left">Login Date/Time</th>
+                    <th className="p-3 text-left">{t("name", language)}</th>
+                    <th className="p-3 text-left">{t("email", language)}</th>
+                    <th className="p-3 text-left">{t("loginDate", language)}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -247,8 +329,8 @@ const AdminDashboard = () => {
               "mb-6 font-bold text-2xl",
               "text-green-200",
               "text-green-700"
-            )}>Login Activity Graph</h2>
-            <Bar data={loginData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, title: { ...chartOptions.plugins.title, text: "User Logins Per Day" } } }} />
+            )}>{t("loginGraph", language)}</h2>
+            <Bar data={loginData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, title: { ...chartOptions.plugins.title, text: t("loginGraphTitle", language) } } }} />
           </section>
 
           {/* Signup Chart */}
@@ -261,8 +343,8 @@ const AdminDashboard = () => {
               "mb-6 font-bold text-2xl",
               "text-green-200",
               "text-green-700"
-            )}>User Signup Trends</h2>
-            <Line data={signupData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, title: { ...chartOptions.plugins.title, text: "User Signup Trends" } } }} />
+            )}>{t("signupTrends", language)}</h2>
+            <Line data={signupData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, title: { ...chartOptions.plugins.title, text: t("signupGraphTitle", language) } } }} />
           </section>
 
           {/* Active / Inactive Users */}
@@ -276,18 +358,18 @@ const AdminDashboard = () => {
               "bg-green-800 text-white",
               "bg-green-600 text-white"
             )}>
-              <h3 className="mb-2 font-bold">Active Users</h3>
+              <h3 className="mb-2 font-bold">{t("activeUsers", language)}</h3>
               <p className="text-3xl font-bold">{userStatus.activeUsers}</p>
-              <small>Logged in last 30 days</small>
+              <small>{t("activeUsersDesc", language)}</small>
             </div>
             <div className={themedClass(
               "flex-1 card-hover p-6 rounded-xl text-center shadow",
               "bg-green-900 text-green-100",
               "bg-green-200 text-green-900"
             )}>
-              <h3 className="mb-2 font-bold">Inactive Users</h3>
+              <h3 className="mb-2 font-bold">{t("inactiveUsers", language)}</h3>
               <p className="text-3xl font-bold">{userStatus.inactiveUsers}</p>
-              <small>Not logged in last 30 days</small>
+              <small>{t("inactiveUsersDesc", language)}</small>
             </div>
           </section>
 
@@ -301,7 +383,7 @@ const AdminDashboard = () => {
               "mb-4 font-bold text-2xl",
               "text-green-200",
               "text-green-700"
-            )}>Recent Login Activity</h2>
+            )}>{t("recentLogin", language)}</h2>
             <div style={{ maxHeight: 200, overflowY: "auto" }}>
               {recentLogins.map((entry, idx) => (
                 <div key={idx} className="activity-item flex justify-between p-3 border-b border-green-200">
@@ -322,11 +404,11 @@ const AdminDashboard = () => {
               ? "bg-green-50 text-green-900"
               : "bg-red-50 text-red-700"
           )} style={fadeInUp}>
-            <h3 className="mb-2 font-bold">Signup Growth This Week</h3>
+            <h3 className="mb-2 font-bold">{t("signupGrowth", language)}</h3>
             <p className="text-3xl font-bold">
               {signupGrowth.isGrowth ? "▲" : "▼"} {signupGrowth.percent}%
             </p>
-            <small>compared to previous week</small>
+            <small>{t("compared", language)}</small>
           </section>
         </div>
       </div>
