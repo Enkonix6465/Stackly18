@@ -11,7 +11,7 @@ const LANGUAGE_KEY = "language";
 const translations = {
   en: {
     heroTitle: "Contact Us",
-    heroDesc: "Have questions? Ready to start your wellness journey? Our team is here to guide and support you.",
+
     formTitle: "Send Us a Message",
     namePlaceholder: "Your Name",
     emailPlaceholder: "Your Email",
@@ -31,7 +31,7 @@ const translations = {
   },
   ar: {
     heroTitle: "تواصل معنا",
-    heroDesc: "هل لديك أسئلة؟ جاهز لبدء رحلتك الصحية؟ فريقنا هنا لإرشادك ودعمك.",
+   
     formTitle: "أرسل لنا رسالة",
     namePlaceholder: "اسمك",
     emailPlaceholder: "بريدك الإلكتروني",
@@ -51,7 +51,7 @@ const translations = {
   },
   he: {
     heroTitle: "צור קשר איתנו",
-    heroDesc: "יש לך שאלות? מוכן להתחיל את מסע הבריאות שלך? הצוות שלנו כאן להדריך ולתמוך בך.",
+   
     formTitle: "שלח לנו הודעה",
     namePlaceholder: "השם שלך",
     emailPlaceholder: "האימייל שלך",
@@ -122,8 +122,8 @@ const ContactUs = () => {
       dir={dir}
       className={themedClass(
         "w-full overflow-x-hidden min-h-screen transition-colors duration-500",
-        "bg-green-950 text-green-100",
-        "bg-green-50 text-green-900"
+        "bg-gray-900 text-gray-100",
+        "bg-gray-50 text-gray-900"
       )}
     >
       {/* ===== HERO SECTION ===== */}
@@ -138,8 +138,8 @@ const ContactUs = () => {
         <div
           className={themedClass(
             "absolute inset-0",
-            "bg-green-950 bg-opacity-70",
-            "bg-green-900 bg-opacity-50"
+            "bg-gray-900 bg-opacity-70",
+            "bg-gray-900 bg-opacity-40"
           )}
         ></div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
@@ -166,8 +166,8 @@ const ContactUs = () => {
       <motion.section
         className={themedClass(
           "w-full py-20 px-4 flex justify-center",
-          "bg-green-900",
-          "bg-green-100"
+          "bg-gray-800",
+          "bg-gray-100"
         )}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -177,15 +177,15 @@ const ContactUs = () => {
         <div
           className={themedClass(
             "max-w-4xl w-full shadow-lg rounded-xl p-8",
-            "bg-green-950",
+            "bg-gray-900",
             "bg-white"
           )}
         >
           <motion.h2
             className={themedClass(
               "text-3xl font-bold mb-6",
-              "text-green-200",
-              "text-green-700"
+              "text-gray-100",
+              "text-gray-800"
             )}
             whileHover={{ scale: 1.05 }}
           >
@@ -197,8 +197,8 @@ const ContactUs = () => {
               placeholder={t("namePlaceholder", language)}
               className={themedClass(
                 "p-4 border rounded-lg w-full focus:ring-2 transition",
-                "border-green-700 focus:ring-green-400 bg-green-900 text-white",
-                "border-green-300 focus:ring-green-400 bg-white text-gray-800"
+                "border-gray-700 focus:ring-green-500 bg-gray-800 text-white",
+                "border-gray-300 focus:ring-green-500 bg-white text-gray-800"
               )}
             />
             <input
@@ -206,8 +206,8 @@ const ContactUs = () => {
               placeholder={t("emailPlaceholder", language)}
               className={themedClass(
                 "p-4 border rounded-lg w-full focus:ring-2 transition",
-                "border-green-700 focus:ring-green-400 bg-green-900 text-white",
-                "border-green-300 focus:ring-green-400 bg-white text-gray-800"
+                "border-gray-700 focus:ring-green-500 bg-gray-800 text-white",
+                "border-gray-300 focus:ring-green-500 bg-white text-gray-800"
               )}
             />
             <input
@@ -215,8 +215,8 @@ const ContactUs = () => {
               placeholder={t("subjectPlaceholder", language)}
               className={themedClass(
                 "p-4 border rounded-lg w-full md:col-span-2 focus:ring-2 transition",
-                "border-green-700 focus:ring-green-400 bg-green-900 text-white",
-                "border-green-300 focus:ring-green-400 bg-white text-gray-800"
+                "border-gray-700 focus:ring-green-500 bg-gray-800 text-white",
+                "border-gray-300 focus:ring-green-500 bg-white text-gray-800"
               )}
             />
             <textarea
@@ -224,8 +224,8 @@ const ContactUs = () => {
               rows={5}
               className={themedClass(
                 "p-4 border rounded-lg w-full md:col-span-2 focus:ring-2 transition",
-                "border-green-700 focus:ring-green-400 bg-green-900 text-white",
-                "border-green-300 focus:ring-green-400 bg-white text-gray-800"
+                "border-gray-700 focus:ring-green-500 bg-gray-800 text-white",
+                "border-gray-300 focus:ring-green-500 bg-white text-gray-800"
               )}
             />
             <motion.button
@@ -235,11 +235,7 @@ const ContactUs = () => {
                 boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
               }}
               whileTap={{ scale: 0.95 }}
-              className={themedClass(
-                "px-8 py-4 rounded-full font-semibold md:col-span-2 transition-colors",
-                "bg-green-700 text-white",
-                "bg-green-600 text-white"
-              )}
+              className="px-8 py-4 rounded-full font-semibold md:col-span-2 transition-colors bg-green-600 text-white hover:bg-green-700"
             >
               {t("submit", language)}
             </motion.button>
@@ -251,8 +247,8 @@ const ContactUs = () => {
       <motion.section
         className={themedClass(
           "w-full py-20 px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center",
-          "bg-green-950",
-          "bg-green-100"
+          "bg-gray-900",
+          "bg-gray-100"
         )}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -281,7 +277,7 @@ const ContactUs = () => {
             whileHover={{ scale: 1.05, y: -5 }}
             className={themedClass(
               "rounded-xl shadow-lg p-8 flex flex-col items-center justify-center transition-all",
-              "bg-green-900",
+              "bg-gray-800",
               "bg-white"
             )}
           >
@@ -289,8 +285,8 @@ const ContactUs = () => {
             <h3
               className={themedClass(
                 "text-xl font-bold mb-2",
-                "text-green-200",
-                "text-green-700"
+                "text-gray-100",
+                "text-gray-800"
               )}
             >
               {card.title}
@@ -298,7 +294,7 @@ const ContactUs = () => {
             <p
               className={themedClass(
                 "text-lg",
-                "text-green-100",
+                "text-gray-300",
                 "text-gray-700"
               )}
             >
@@ -327,8 +323,8 @@ const ContactUs = () => {
         <div
           className={themedClass(
             "absolute inset-0",
-            "bg-green-950 bg-opacity-40",
-            "bg-green-900 bg-opacity-30"
+            "bg-gray-900 bg-opacity-40",
+            "bg-gray-900 bg-opacity-30"
           )}
         ></div>
       </motion.section>
@@ -337,8 +333,8 @@ const ContactUs = () => {
       <motion.section
         className={themedClass(
           "relative w-full py-28 px-4 flex flex-col items-center justify-center overflow-hidden",
-          "bg-green-900",
-          "bg-green-100"
+          "bg-gray-800",
+          "bg-gray-100"
         )}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -348,15 +344,15 @@ const ContactUs = () => {
         <div
           className={themedClass(
             "absolute inset-0 opacity-30",
-            "bg-green-950",
-            "bg-green-100"
+            "bg-gray-900",
+            "bg-gray-100"
           )}
         ></div>
         <h2
           className={themedClass(
             "text-4xl md:text-5xl font-bold mb-16 z-10 relative",
-            "text-green-200",
-            "text-green-700"
+            "text-gray-100",
+            "text-gray-800"
           )}
         >
           {t("connect", language)}
@@ -393,8 +389,8 @@ const ContactUs = () => {
               whileTap={{ scale: 0.95 }}
               className={themedClass(
                 "text-5xl md:text-6xl transition-colors duration-300",
-                "text-green-200 hover:text-white",
-                "text-green-700 hover:text-green-900"
+                "text-gray-200 hover:text-green-500",
+                "text-gray-700 hover:text-green-700"
               )}
             >
               {item.icon}
@@ -408,7 +404,7 @@ const ContactUs = () => {
         className={themedClass(
           "w-full py-20 px-4 text-center relative",
           "text-white",
-          "text-green-900"
+          "text-gray-900"
         )}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -424,8 +420,8 @@ const ContactUs = () => {
         <div
           className={themedClass(
             "absolute inset-0",
-            "bg-green-950 bg-opacity-60",
-            "bg-green-900 bg-opacity-50"
+            "bg-gray-900 bg-opacity-60",
+            "bg-gray-900 bg-opacity-40"
           )}
         ></div>
         <div className="relative z-10 max-w-3xl mx-auto">
@@ -433,7 +429,7 @@ const ContactUs = () => {
             className={themedClass(
               "text-3xl md:text-4xl font-bold mb-6",
               "text-white",
-              "text-green-900"
+              "text-gray-900"
             )}
           >
             {t("newsletterTitle", language)}
@@ -441,8 +437,8 @@ const ContactUs = () => {
           <p
             className={themedClass(
               "max-w-2xl mx-auto mb-6",
-              "text-green-100",
-              "text-green-900"
+              "text-gray-200",
+              "text-gray-800"
             )}
           >
             {t("newsletterDesc", language)}
@@ -453,8 +449,8 @@ const ContactUs = () => {
               placeholder={t("emailPlaceholder", language)}
               className={themedClass(
                 "p-4 rounded-full w-full sm:flex-1 focus:outline-none",
-                "text-gray-800",
-                "text-gray-800"
+                "bg-white text-gray-900",
+                "bg-white text-gray-900"
               )}
             />
             <motion.button
@@ -463,11 +459,7 @@ const ContactUs = () => {
                 boxShadow: "0 0 15px rgba(0,0,0,0.2)",
               }}
               whileTap={{ scale: 0.95 }}
-              className={themedClass(
-                "px-6 py-4 rounded-full font-semibold mt-4 sm:mt-0",
-                "bg-white text-green-600",
-                "bg-green-700 text-white"
-              )}
+              className="px-6 py-4 rounded-full font-semibold mt-4 sm:mt-0 bg-green-600 text-white hover:bg-green-700"
             >
               {t("subscribe", language)}
             </motion.button>

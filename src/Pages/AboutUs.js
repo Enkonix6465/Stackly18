@@ -345,7 +345,7 @@ const AboutUs = () => {
                 to="/services"
                 className={themedClass(
                   "font-bold py-3 px-6 rounded-full shadow transition-all inline-block",
-                  "bg-[#00bfff] text-white hover:bg-green-700",
+                  "bg#22c55e] text-white hover:bg-green-700",
                   "bg-green-600 text-white hover:bg-green-700"
                 )}
               >
@@ -357,7 +357,7 @@ const AboutUs = () => {
                 to="/contact"
                 className={themedClass(
                   "border-2 font-bold py-3 px-6 rounded-full shadow transition-all inline-block",
-                  "border-[#00bfff] text-[#00bfff] hover:bg-[#00bfff] hover:text-white",
+                  "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white",
                   "border-green-600 text-green-600 hover:bg-green-50"
                 )}
               >
@@ -419,7 +419,7 @@ const AboutUs = () => {
                     to="/services"
                     className={themedClass(
                       "font-bold py-3 px-6 rounded-full shadow transition-all inline-block",
-                      "bg-[#00bfff] text-white hover:bg-green-700",
+                      "bg-[#22c55e] text-white hover:bg-green-700",
                       "bg-green-600 text-white hover:bg-green-700"
                     )}
                   >
@@ -431,7 +431,7 @@ const AboutUs = () => {
                     to="/contact"
                     className={themedClass(
                       "border-2 font-bold py-3 px-6 rounded-full transition-all inline-block",
-                      "border-[#00bfff] text-[#00bfff] hover:bg-[#00bfff] hover:text-white",
+                      "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white",
                       "border-green-600 text-green-600 hover:bg-green-50"
                     )}
                   >
@@ -769,7 +769,7 @@ const AboutUs = () => {
             to="/contact"
             className={themedClass(
               "font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all inline-block",
-              "bg-[#00bfff] text-white hover:bg-green-700",
+              "bg-[#22c55e] text-white hover:bg-green-700",
               "bg-white text-white-600"
             )}
           >
@@ -783,7 +783,7 @@ const AboutUs = () => {
             to="/services"
             className={themedClass(
               "bg-transparent border-2 font-bold py-3 px-8 rounded-full transition-all inline-block",
-              "border-[#00bfff] text-white hover:bg-[#00bfff] hover:text-white",
+              "border-[#22c55e] text-white hover:bg-[#22c55e] hover:text-white",
               "border-green-600 text-white hover:bg-green-50 hover:text-green-600"
             )}
           >

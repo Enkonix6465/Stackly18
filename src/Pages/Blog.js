@@ -252,7 +252,7 @@ const Blog = () => {
               to="/contact"
               className={themedClass(
                 "px-8 py-4 rounded-full font-semibold shadow-lg inline-block text-center",
-                "bg-[#00bfff] text-white",
+                "bg-[#22c55e] text-white",
                 "bg-green-600 text-white"
               )}
             >
@@ -383,7 +383,7 @@ const Blog = () => {
                   to="/article"
                   className={themedClass(
                     "px-6 py-2 rounded-full font-semibold transition-all inline-block text-center",
-                    "bg-[#00bfff] text-white hover:bg-green-700",
+                    "bg-[#22c55e] text-white hover:bg-green-700",
                     "bg-green-600 text-white hover:bg-green-700"
                   )}
                 >
@@ -433,7 +433,7 @@ const Blog = () => {
                   to="/article"
                   className={themedClass(
                     "px-6 py-2 rounded-full font-semibold transition-all inline-block text-center",
-                    "bg-[#00bfff] text-white hover:bg-green-700",
+                    "bg-[#22c55e] text-white hover:bg-green-700",
                     "bg-green-600 text-white hover:bg-green-700"
                   )}
                 >
@@ -551,7 +551,7 @@ const Blog = () => {
           to="/contact"
           className={themedClass(
             "px-6 py-4 rounded-full font-semibold mt-4 sm:mt-0 inline-block text-center",
-            "bg-[#00bfff] text-white",   // Dark mode
+            "bg-[#22c55e] text-white",   // Dark mode
             "bg-green-600 text-white"    // Light mode
           )}
         >

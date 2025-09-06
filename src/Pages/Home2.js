@@ -283,7 +283,7 @@ const Home2 = () => {
                   href="/about"
                   className={themedClass(
                     "px-6 py-3 font-semibold rounded-lg shadow-lg transition duration-300 animate-fadeInUp",
-                    "bg-[#00bfff] text-white hover:bg-green-600",
+                    "bg-[#00ff3c] text-white hover:bg-green-600",
                     "bg-green-500 text-white hover:bg-green-600"
                   )}
                 >

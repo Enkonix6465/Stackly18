@@ -18,6 +18,7 @@ const TRANSLATIONS = {
     heroTitle: 'Our services',
     heroSubtitle: 'Discover our holistic approach to health and wellness',
     heroCta: 'Explore Blogs',
+    Title:'Our services',
     service1Title: 'Personalized Nutrition',
     service1Desc: 'Tailored meal plans designed by certified nutritionists to meet your unique dietary needs.',
     service1Detail: 'Our nutrition plans are customized for your lifestyle, helping you achieve balanced energy, improved digestion, and overall vitality.',
@@ -69,6 +70,7 @@ const TRANSLATIONS = {
     heroTitle: 'أعد تنشيط عافيتك',
     heroSubtitle: 'اكتشف نهجنا الشامل للصحة والعافية',
     heroCta: 'استكشف المدونات',
+     Title:'خدماتنا',
     service1Title: 'تغذية شخصية',
     service1Desc: 'خطط وجبات مصممة خصيصًا من قبل أخصائيي تغذية لتلبية احتياجاتك.',
     service1Detail: 'خطط التغذية لدينا مخصصة لأسلوب حياتك، وتساعدك على تحقيق طاقة متوازنة وتحسين الهضم والحيوية.',
@@ -120,6 +122,7 @@ const TRANSLATIONS = {
     heroTitle: 'רענן את איכות החיים שלך',
     heroSubtitle: 'גלה את הגישה ההוליסטית שלנו לבריאות ורווחה',
     heroCta: 'גלה בלוגים',
+     Title:'השירותים שלנו',
     service1Title: 'תזונה מותאמת אישית',
     service1Desc: 'תוכניות ארוחות מותאמות אישית על ידי תזונאים מוסמכים.',
     service1Detail: 'התוכניות שלנו מותאמות לאורח חייך, מאזנות אנרגיה ומשפרות עיכול וחיוניות.',
@@ -323,7 +326,7 @@ const ServicesPage = () => {
             whileTap={{ scale: 0.95 }}
             className={themedClass(
               "px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all",
-              "bg-[#00bfff] text-white",
+              "bg-[#22c55e] text-white",
               "bg-white text-green-600"
             )}
           >
@@ -332,68 +335,128 @@ const ServicesPage = () => {
         </motion.div>
       </section>
 
+
+      
+
       {/* Services Grid */}
       <div className="w-full overflow-hidden">
-        {services.map((service, index) => (
-          <motion.section
-            key={index}
-            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className={`${service.bgColor} py-20 px-4 sm:px-6 lg:px-12 w-full`}
+  {/* 🔥 Section Heading */}
+  <div className="text-center my-12">
+    <motion.h2
+      initial={{ opacity: 0, y: 50, scale: 0.8 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }}
+      dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
+      className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-wide"
+    >
+      <span className="relative inline-block">
+        <motion.span
+          className="absolute -inset-1 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 blur-lg opacity-30 rounded-full"
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
+        <span className="relative">{t("Title")}</span>
+      </span>
+    </motion.h2>
+
+    {/* Underline Animation */}
+    <motion.div
+      initial={{ width: 0 }}
+      whileInView={{ width: "120px" }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+      viewport={{ once: true }}
+      className="h-1 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full mx-auto mt-4"
+    />
+  </div>
+
+  {/* 🔥 Service Cards */}
+  {services.map((service, index) => (
+    <motion.section
+      key={index}
+      initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      className={`${service.bgColor} py-20 px-4 sm:px-6 lg:px-12 w-full`}
+      dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
+    >
+      <div
+        className={`max-w-7xl mx-auto flex flex-col ${
+          index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+        } items-center gap-10 md:gap-20`}
+      >
+        {/* Service Icon */}
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          className="w-44 h-44 md:w-52 md:h-52 rounded-xl overflow-hidden mb-8 md:mb-0 shadow-lg"
+        >
+          <img
+            src={service.icon}
+            alt={service.title}
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+
+        {/* Service Content */}
+        <div className="flex-1">
+          {/* ✅ Heading */}
+          <h2
+            className={themedClass(
+              "text-3xl md:text-4xl font-bold mb-4 text-green-700 bg-clip-text",
+              "text-white", // dark mode → bright
+              "text-green-800" // light mode
+            )}
           >
-            <div className={`max-w-7xl mx-auto flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 md:gap-20`}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="w-44 h-44 md:w-52 md:h-52 rounded-xl overflow-hidden mb-8 md:mb-0 shadow-lg"
-              >
-                <img
-                  src={service.icon}
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-              <div className="flex-1">
-                <h2 className={themedClass(
-                  "text-3xl md:text-4xl font-bold mb-4",
-                  "text-green-200",
-                  "text-green-800"
-                )}>{service.title}</h2>
-                <p className={themedClass(
-                  "text-lg mb-6 text-justify",
-                  "text-gray-300",
-                  "text-gray-700"
-                )}>{service.description}</p>
-                <p className={themedClass(
-                  "mb-6 text-justify",
-                  "text-gray-400",
-                  "text-gray-600"
-                )}>
-                  {index === 0 && t('service1Detail')}
-                  {index === 1 && t('service2Detail')}
-                  {index === 2 && t('service3Detail')}
-                  {index === 3 && t('service4Detail')}
-                  {index === 4 && t('service5Detail')}
-                  {index === 5 && t('service6Detail')}
-                </p>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link
-                    to="/nutrition"
-                    className={themedClass(
-                      "px-6 py-3 rounded-full font-medium transition-colors inline-block",
-                      "bg-[#00bfff] text-white hover:bg-green-700",
-                      "bg-green-600 text-white hover:bg-green-700"
-                    )}
-                  >
-                    {service.buttonText}
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-          </motion.section>
-        ))}
+            {service.title}
+          </h2>
+
+          {/* ✅ Description */}
+          <p
+            className={themedClass(
+              "text-lg mb-6 text-justify",
+              "text-gray-200", // dark mode → visible
+              "text-gray-700"
+            )}
+          >
+            {service.description}
+          </p>
+
+          {/* ✅ Details */}
+          <p
+            className={themedClass(
+              "mb-6 text-justify",
+              "text-gray-300", // lighter in dark mode
+              "text-gray-600"
+            )}
+          >
+            {index === 0 && t("service1Detail")}
+            {index === 1 && t("service2Detail")}
+            {index === 2 && t("service3Detail")}
+            {index === 3 && t("service4Detail")}
+            {index === 4 && t("service5Detail")}
+            {index === 5 && t("service6Detail")}
+          </p>
+
+          {/* ✅ Button always readable */}
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              to="/nutrition"
+              className={themedClass(
+                "px-6 py-3 rounded-full font-medium transition-colors inline-block",
+                "bg-green-500 text-white hover:bg-green-600", // dark mode
+                "bg-green-600 text-white hover:bg-green-700" // light mode
+              )}
+            >
+              {service.buttonText}
+            </Link>
+          </motion.div>
+        </div>
       </div>
+    </motion.section>
+  ))}
+</div>
+
 
       {/* CTA Section */}
       <motion.section
@@ -455,7 +518,7 @@ const ServicesPage = () => {
                 to="/blog"
                 className={themedClass(
                   "px-10 py-4 rounded-full font-semibold text-lg shadow-md transition-all inline-block text-center",
-                  "bg-[#00bfff] text-white",
+                  "bg-[#22c55e] text-white",
                   "bg-white text-green-700"
                 )}
               >
@@ -471,7 +534,7 @@ const ServicesPage = () => {
                 to="/contact"
                 className={themedClass(
                   "border-2 px-10 py-4 rounded-full font-semibold text-lg transition-all inline-block text-center",
-                  "border-[#00bfff] text-[#00bfff] hover:bg-[#00bfff] hover:text-white",
+                  "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white",
                   "border-green-700 text-green-700 hover:bg-green-700 hover:text-white"
                 )}
               >

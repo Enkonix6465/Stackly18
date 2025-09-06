@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
+import CountUp from "react-countup";
 
 import vedio from "../assets/home1.mp4";
 import image from "../assets/1.jpg";
@@ -7,9 +10,7 @@ import image6 from "../assets/health.jpg";
 import image7 from "../assets/Mindful.jpg";
 import image8 from "../assets/walk.jpg";
 import image9 from "../assets/B2.jpg";
-import { Link } from "react-router-dom";
 
-// Translations and language helpers
 const TRANSLATIONS = {
   en: {
     heroTitle: "Welcome to Health & Wellness",
@@ -146,8 +147,6 @@ const getLanguage = () => {
 };
 
 const blogKeys = ['blog1', 'blog2', 'blog3'];
-
-// Dummy blogs
 const blogs = [
   {
     title: "5 Tips for Mindful Living",
@@ -166,25 +165,25 @@ const blogs = [
   },
 ];
 const achievements = [
-  { label: "Happy Clients" },
-  { label: "Wellness Programs" },
-  { label: "Expert Coaches" },
-  { label: "Years of Service" }
+  { count: 500, label: "Happy Clients" },
+  { count: 120, label: "Wellness Programs" },
+  { count: 45, label: "Expert Coaches" },
+  { count: 10, label: "Years of Service" },
 ];
-
 const counts = [500, 120, 45, 10]; 
-
 const THEME_KEY = 'theme';
 
 const Home1 = () => {
   const [language, setLanguage] = useState(getLanguage());
-  // Theme state and effect (robust, cross-tab sync, SSR-safe)
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem(THEME_KEY) || 'light';
     }
     return 'light';
   });
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.6 });
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -214,7 +213,6 @@ const Home1 = () => {
     }
   }, []);
 
-  // Sync language changes
   useEffect(() => {
     const handleLanguageChange = () => {
       setLanguage(getLanguage());
@@ -228,14 +226,7 @@ const Home1 = () => {
   }, []);
 
   const t = (key) => TRANSLATIONS[language]?.[key] || TRANSLATIONS.en[key] || key;
-
   const achievementLabels = [t('ach1'), t('ach2'), t('ach3'), t('ach4')];
-
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
-
-  // Helper for theme-based class
   const themedClass = (base, dark, light) =>
     `${base} ${theme === 'dark' ? dark : light}`;
 
@@ -246,93 +237,91 @@ const Home1 = () => {
       "bg-white text-gray-900"
     )}>
       {/* Hero Section */}
-      <section
-  className={themedClass(
-    "relative w-full h-screen flex items-center justify-center overflow-hidden",
-    "bg-black",
-    "bg-black"
-  )}
->
-  <video
-    src={vedio}
-    autoPlay
-    loop
-    muted
-    playsInline
-    className="absolute top-0 left-0 w-full h-full object-cover opacity-60"
-  />
-  <div
-    className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6"
-    style={{ color: theme === "dark" ? "#fff" : "#fff" }}
-  >
-    <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fadeInDown">
-      {t('heroTitle')}
-    </h1>
-    <p className="text-lg md:text-2xl mb-6 animate-fadeInUp">
-      {t('heroSubtitle')}
-    </p>
-    <a
-      href="/about"
-      className={themedClass(
-        "px-6 py-3 font-semibold rounded-lg shadow-lg transition duration-300 animate-fadeInUp",
-        "bg-[#00bfff] text-white hover:bg-green-600",
-        "bg-green-500 text-white hover:bg-green-600"
-      )}
-    >
-      {t('heroCta')}
-    </a>
-  </div>
-</section>
-
+      <section ref={ref} className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-black">
+        <video
+          src={vedio}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover opacity-60"
+        />
+        <div className="absolute w-72 h-72 bg-green-400/20 rounded-full blur-3xl top-10 left-20 animate-pulse-slow"></div>
+        <div className="absolute w-60 h-60 bg-emerald-400/20 rounded-full blur-3xl bottom-20 right-28 animate-float"></div>
+        <div className="absolute w-44 h-44 bg-lime-400/20 rounded-full blur-2xl top-1/3 right-1/4 animate-float-delayed"></div>
+        <div className="absolute inset-0 overflow-hidden z-0">
+          {[...Array(15)].map((_, i) => (
+            <span
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full animate-twinkle"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+              }}
+            ></span>
+          ))}
+        </div>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6 text-white">
+          <motion.h1
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
+            className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-green-400 via-emerald-500 to-lime-400 bg-clip-text text-transparent animate-shimmer"
+          >
+            {t("heroTitle")}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="text-lg md:text-2xl mb-6 text-gray-200"
+          >
+            {t("heroSubtitle")}
+          </motion.p>
+          <motion.a
+            href="/about"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="px-8 py-3 font-semibold rounded-full shadow-lg transition duration-300 transform bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:scale-110 hover:shadow-[0_0_20px_rgba(34,197,94,0.7)]"
+          >
+            {t("heroCta")}
+          </motion.a>
+        </div>
+      </section>
 
       {/* About Us Section */}
 
-    <section
-      className="w-full py-20 transition-colors duration-500 bg-gray-50 dark:bg-gray-900"
-      id="about"
-    >
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Text Content */}
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
-            {t('aboutHeading')}
-          </h2>
-
-          <p className="text-lg leading-relaxed mb-6 text-gray-700 dark:text-gray-300">
-            {t('aboutP1')}
-          </p>
-
-          <ul className="list-decimal list-inside mb-8 space-y-2 text-gray-700 dark:text-gray-400">
-            <li>{t('aboutL1')}</li>
-            <li>{t('aboutL2')}</li>
-            <li>{t('aboutL3')}</li>
-          </ul>
-
-          <Link
-            to="/about"
-            className="px-6 py-3 rounded-lg shadow-md transition-all duration-300 bg-green-600 text-white hover:bg-green-700 inline-block"
-          >
-            {t('aboutCta')}
-          </Link>
+    <section className={themedClass(
+        "py-20 transition-colors duration-500",
+        "bg-gray-900 text-gray-100",
+        "bg-gray-50 text-gray-900"
+      )}>
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-4xl font-bold mb-6">{t("aboutHeading")}</h2>
+            <p className="mb-6">{t("aboutP1")}</p>
+            <ul className="list-decimal list-inside mb-8 space-y-2">
+              <li>{t("aboutL1")}</li>
+              <li>{t("aboutL2")}</li>
+              <li>{t("aboutL3")}</li>
+            </ul>
+            <Link to="/about" className="px-6 py-3 bg-green-600 text-white rounded shadow">
+              {t("aboutCta")}
+            </Link>
+          </div>
+          <div className="flex gap-4">
+            <img src={image} className="rounded shadow-lg w-1/2 object-cover h-96" />
+            <img src={image2} className="rounded shadow-lg w-1/2 object-cover h-96" />
+          </div>
         </div>
+      </section>
+  
 
-        {/* Image Section */}
-        <div className="flex flex-row gap-4 h-full items-center justify-center">
-          <img
-            src={image}
-            alt="Wellness Activity 1"
-            className="rounded-xl shadow-lg object-cover w-1/2 transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
-            style={{ minWidth: 0, height: "400px" }}
-          />
-          <img
-            src={image2}
-            alt="Wellness Activity 2"
-            className="rounded-xl shadow-lg object-cover w-1/2 transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
-            style={{ minWidth: 0, height: "400px" }}
-          />
-        </div>
-      </div>
-    </section>
   
 
 
@@ -344,7 +333,12 @@ const Home1 = () => {
     "bg-gradient-to-b from-green-50 to-green-100"
   )}
 >
-  <h2
+  {/* Section Heading with entrance animation */}
+  <motion.h2
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    viewport={{ once: true }}
     className={themedClass(
       "text-4xl font-bold text-center mb-14",
       "text-white",
@@ -352,118 +346,159 @@ const Home1 = () => {
     )}
   >
     {t('servicesHeading')}
-  </h2>
+  </motion.h2>
 
+  {/* Services Grid */}
   <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full px-4 md:px-12">
     {[`🧘 ${t('serviceTitle1')}`, `🥗 ${t('serviceTitle2')}`, `🏋️ ${t('serviceTitle3')}`].map(
       (service, idx) => (
-        <div
+        <motion.div
           key={idx}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: idx * 0.2 }}
+          whileHover={{ scale: 1.05, rotate: 2 }}
           className={themedClass(
-            "relative z-10 rounded-2xl shadow-lg p-8 transform transition duration-500 hover:scale-105 hover:shadow-2xl",
-            "bg-[#1E2A38]",
-            "bg-white"
+            "relative z-10 rounded-2xl shadow-lg p-8 transform transition duration-500",
+            "bg-[#1E2A38] hover:shadow-2xl",
+            "bg-white hover:shadow-2xl"
           )}
         >
-          {/* Icon */}
-          <div className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-green-100 text-green-600 text-3xl">
+          {/* Icon with hover bounce */}
+          <motion.div
+            className="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-full bg-green-100 text-green-600 text-3xl"
+            whileHover={{ scale: 1.2, rotate: [0, 10, -10, 0] }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             {service.split(" ")[0]}
-          </div>
+          </motion.div>
 
           {/* Title */}
-          <h3
+          <motion.h3
             className={themedClass(
               "text-2xl font-semibold mb-3 text-center",
               "text-white",
               "text-gray-800"
             )}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 250 }}
           >
             {service.slice(2)}
-          </h3>
+          </motion.h3>
 
           {/* Description */}
-          <p
+          <motion.p
             className={themedClass(
               "text-center",
               "text-gray-300",
               "text-gray-600"
             )}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: idx * 0.3 }}
           >
             {idx === 0 && t('serviceDesc1')}
             {idx === 1 && t('serviceDesc2')}
             {idx === 2 && t('serviceDesc3')}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       )
     )}
   </div>
 </section>
 
-
       {/* Blog Section */}
       <section className="py-20 transition-colors duration-500">
-        <div className="text-center mb-14">
-          <h2 className={themedClass(
-            "text-4xl font-extrabold",
-            "text-green-400",
-            "text-green-700"
-          )}>
-            {t('latestArticles')}
-          </h2>
-          <p className={themedClass(
-            "mt-3 max-w-2xl mx-auto",
-            "text-gray-300",
-            "text-gray-600"
-          )}>
-            {t('latestArticlesDesc')}
-          </p>
+  {/* Section Heading */}
+  <div className="text-center mb-14">
+    <motion.h2
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }}
+      className={themedClass(
+        "text-4xl font-extrabold",
+        "text-green-400",
+        "text-green-700"
+      )}
+    >
+      {t('latestArticles')}
+    </motion.h2>
+    <motion.p
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      viewport={{ once: true }}
+      className={themedClass(
+        "mt-3 max-w-2xl mx-auto",
+        "text-gray-300",
+        "text-gray-600"
+      )}
+    >
+      {t('latestArticlesDesc')}
+    </motion.p>
+  </div>
+
+  {/* Blog Grid */}
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
+    {blogs.map((blog, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100, y: 20 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: index * 0.2 }}
+        whileHover={{ scale: 1.05, rotate: [0, 1, -1, 0], boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
+        className={themedClass(
+          "group rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500",
+          "bg-[#1E2A38]",
+          "bg-white"
+        )}
+      >
+        {/* Image */}
+        <div className="overflow-hidden">
+          <motion.img
+            src={blog.img}
+            alt={t(`${blogKeys[index]}Title`)}
+            className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
+            whileHover={{ scale: 1.1 }}
+          />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
-          {blogs.map((blog, index) => (
-            <div
-              key={index}
-              className={themedClass(
-                "group rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-3 transition-all duration-500",
-                "bg-[#1E2A38]",
-                "bg-white"
-              )}
-            >
-              <div className="overflow-hidden">
-                <img
-                  src={blog.img}
-                  alt={t(`${blogKeys[index]}Title`)}
-                  className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-6 text-left">
-                <h3 className={themedClass(
-                  "text-xl font-bold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300",
-                  "text-white",
-                  "text-gray-800"
-                )}>
-                  {t(`${blogKeys[index]}Title`)}
-                </h3>
-                <p className={themedClass(
-                  "mt-3",
-                  "text-gray-300",
-                  "text-gray-600"
-                )}>
-                  {t(`${blogKeys[index]}Desc`)}
-                </p>
-                
-              </div>
-            </div>
-          ))}
+
+        {/* Content */}
+        <div className="p-6 text-left">
+          <motion.h3
+            className={themedClass(
+              "text-xl font-bold group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300",
+              "text-white",
+              "text-gray-800"
+            )}
+            whileHover={{ scale: 1.03 }}
+          >
+            {t(`${blogKeys[index]}Title`)}
+          </motion.h3>
+          <motion.p
+            className={themedClass(
+              "mt-3",
+              "text-gray-300",
+              "text-gray-600"
+            )}
+          >
+            {t(`${blogKeys[index]}Desc`)}
+          </motion.p>
         </div>
-      </section>
+      </motion.div>
+    ))}
+  </div>
+</section>
+
+
+
+
 
       {/* Achievements Section */}
+      
 
-
-
-
-
-      <section
+<section
   className={themedClass(
     "w-full py-28 px-6",
     "bg-[#22304a]",
@@ -471,7 +506,11 @@ const Home1 = () => {
   )}
 >
   {/* Heading */}
-  <h2
+  <motion.h2
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    viewport={{ once: true }}
     className={themedClass(
       "text-4xl font-extrabold text-center mb-16",
       "text-white",
@@ -479,19 +518,24 @@ const Home1 = () => {
     )}
   >
     {t('achievementsHeading')}
-  </h2>
+  </motion.h2>
 
   {/* Cards Grid */}
   <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-5 text-center">
     {achievements.map((item, i) => (
-      <div
+      <motion.div
         key={i}
+        initial={{ opacity: 0, y: 30, scale: 0.8 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, delay: i * 0.2 }}
+        whileHover={{
+          scale: 1.1,
+          rotate: [0, 2, -2, 0],
+          boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+        }}
         className={themedClass(
-          // 🔹 Card base + hover effects
-          " w-48 h-48 rounded-full shadow-lg p-12 flex flex-col items-center justify-center transition-all duration-500 transform hover:scale-110 hover:shadow-2xl hover:-translate-y-2",
-          // Dark mode
+          "w-48 h-48 rounded-full shadow-lg p-12 flex flex-col items-center justify-center transition-all duration-500 transform",
           "bg-[#1E2A38] hover:bg-[#2a3b54]",
-          // Light mode
           "bg-white hover:bg-gradient-to-b hover:from-green-50 hover:to-green-100"
         )}
       >
@@ -503,7 +547,7 @@ const Home1 = () => {
             "text-green-700 group-hover:text-green-800"
           )}
         >
-          {counts[i]}+
+          <CountUp end={counts[i]} duration={2} suffix="+" />
         </h3>
 
         {/* Label */}
@@ -516,7 +560,7 @@ const Home1 = () => {
         >
           {achievementLabels[i]}
         </p>
-      </div>
+      </motion.div>
     ))}
   </div>
 </section>
