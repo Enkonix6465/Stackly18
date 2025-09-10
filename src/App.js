@@ -18,7 +18,7 @@ import Wellness from "./Pages/Wellness";
 import AdminDashboard from "./Pages/AdminDashboard";
 import Login from "./Pages/Login";
 import Article from "./Pages/Article";
-import ScrollToTopButton from "./components/ScrollToTopButton";
+import ScrollToTop from "./components/ScrollToTop";
 import { DarkModeProvider } from "./context/Darkmodecontect";
 
 function AppContent() {
@@ -28,8 +28,7 @@ function AppContent() {
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      {/* ScrollToTopButton should be rendered globally, not as a route */}
-      <ScrollToTopButton />
+      <ScrollToTop />
       <main className="min-h-[calc(100vh-128px)]">
         <Routes>
           <Route path="/home1" element={<Home1 />} />

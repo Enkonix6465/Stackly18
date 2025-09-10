@@ -298,14 +298,16 @@ const AboutUs = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
+  // Consistent CTA button class for all buttons
+  const ctaButtonClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform bg-green-500 text-white hover:bg-green-600 hover:scale-110 inline-block text-center";
+  const ctaButtonOutlineClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform border-2 border-green-500 text-green-500 bg-transparent hover:bg-green-50 hover:text-green-700 hover:scale-110 inline-block text-center";
+
   return (
     <div className={themedClass(
       "font-sans min-h-screen transition-colors duration-500",
       "bg-gray-900 text-gray-100",
       "bg-white text-gray-800"
     )}>
-      
-
       {/* Hero Section */}
       <section className="relative w-full h-screen overflow-hidden">
         <video
@@ -323,14 +325,14 @@ const AboutUs = () => {
           transition={{ duration: 1 }}
           className="relative flex flex-col justify-center items-center h-full text-center text-white px-4"
         >
-          <motion.h1
+          <motion.h2
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
             className="text-5xl md:text-6xl font-serif font-bold mb-6"
           >
             {t('heroTitle')}
-          </motion.h1>
+          </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -343,11 +345,7 @@ const AboutUs = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to="/services"
-                className={themedClass(
-                  "font-bold py-3 px-6 rounded-full shadow transition-all inline-block",
-                  "bg#22c55e] text-white hover:bg-green-700",
-                  "bg-green-600 text-white hover:bg-green-700"
-                )}
+                className={ctaButtonClass}
               >
                 {t('heroServices')}
               </Link>
@@ -355,11 +353,7 @@ const AboutUs = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to="/contact"
-                className={themedClass(
-                  "border-2 font-bold py-3 px-6 rounded-full shadow transition-all inline-block",
-                  "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white",
-                  "border-green-600 text-green-600 hover:bg-green-50"
-                )}
+                className={ctaButtonOutlineClass}
               >
                 {t('heroContact')}
               </Link>
@@ -417,11 +411,7 @@ const AboutUs = () => {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     to="/services"
-                    className={themedClass(
-                      "font-bold py-3 px-6 rounded-full shadow transition-all inline-block",
-                      "bg-[#22c55e] text-white hover:bg-green-700",
-                      "bg-green-600 text-white hover:bg-green-700"
-                    )}
+                    className={ctaButtonClass}
                   >
                     {t('storyCta1')}
                   </Link>
@@ -429,11 +419,7 @@ const AboutUs = () => {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     to="/contact"
-                    className={themedClass(
-                      "border-2 font-bold py-3 px-6 rounded-full transition-all inline-block",
-                      "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white",
-                      "border-green-600 text-green-600 hover:bg-green-50"
-                    )}
+                    className={ctaButtonOutlineClass}
                   >
                     {t('storyCta2')}
                   </Link>
@@ -719,83 +705,73 @@ const AboutUs = () => {
 
       {/* Section 6: Join Us */}
       <section
-  className={themedClass(
-    "relative py-20 px-4 bg-fixed bg-cover bg-center w-full",
-    "",
-    ""
-  )}
-  style={{ backgroundImage: `url(${backgroundImage})` }}
->
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
-  {/* Content */}
-  <div className="relative text-center max-w-6xl mx-auto z-10">
-    <motion.div
-      initial="hidden"
-      animate={isVisible[5] ? "visible" : "hidden"}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0.1 }
-        }
-      }}
-    >
-      {/* Heading */}
-      <motion.h2
-        variants={fadeIn}
-        className="text-3xl md:text-4xl font-serif font-bold mb-6 !text-white"
+        className={themedClass(
+          "relative py-20 px-4 bg-fixed bg-cover bg-center w-full",
+          "",
+          ""
+        )}
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        {t('ctaHeading')}
-      </motion.h2>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Paragraph */}
-      <motion.p
-        variants={fadeIn}
-        className="text-xl mb-10 max-w-2xl mx-auto !text-white"
-      >
-        {t('ctaParagraph')}
-      </motion.p>
-
-      {/* Buttons */}
-      <motion.div
-        variants={fadeIn}
-        className="flex flex-wrap justify-center gap-4"
-      >
-        {/* Button 1 */}
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link
-            to="/contact"
-            className={themedClass(
-              "font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all inline-block",
-              "bg-[#22c55e] text-white hover:bg-green-700",
-              "bg-white text-white-600"
-            )}
+        {/* Content */}
+        <div className="relative text-center max-w-6xl mx-auto z-10">
+          <motion.div
+            initial="hidden"
+            animate={isVisible[5] ? "visible" : "hidden"}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 }
+              }
+            }}
           >
-            {t('ctaBtn1')}
-          </Link>
-        </motion.div>
+            {/* Heading */}
+            <motion.h2
+              variants={fadeIn}
+              className="text-3xl md:text-4xl font-serif font-bold mb-6 !text-white"
+            >
+              {t('ctaHeading')}
+            </motion.h2>
 
-        {/* Button 2 */}
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link
-            to="/services"
-            className={themedClass(
-              "bg-transparent border-2 font-bold py-3 px-8 rounded-full transition-all inline-block",
-              "border-[#22c55e] text-white hover:bg-[#22c55e] hover:text-white",
-              "border-green-600 text-white hover:bg-green-50 hover:text-green-600"
-            )}
-          >
-            {t('ctaBtn2')}
-          </Link>
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  </div>
-</section>
+            {/* Paragraph */}
+            <motion.p
+              variants={fadeIn}
+              className="text-xl mb-10 max-w-2xl mx-auto !text-white"
+            >
+              {t('ctaParagraph')}
+            </motion.p>
 
+            {/* Buttons */}
+            <motion.div
+              variants={fadeIn}
+              className="flex flex-wrap justify-center gap-4"
+            >
+              {/* Button 1 */}
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/contact"
+                  className={ctaButtonClass}
+                >
+                  {t('ctaBtn1')}
+                </Link>
+              </motion.div>
 
+              {/* Button 2 */}
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link
+                  to="/services"
+                  className={ctaButtonOutlineClass}
+                >
+                  {t('ctaBtn2')}
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };

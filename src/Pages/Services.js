@@ -179,13 +179,16 @@ const getLanguage = () => {
 
 const ServicesPage = () => {
   const [language, setLanguage] = useState(getLanguage());
-  // Theme state and effect
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem(THEME_KEY) || 'light';
     }
     return 'light';
   });
+
+  // Consistent CTA button classes
+  const ctaButtonClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform bg-green-500 text-white hover:bg-green-600 hover:scale-110 inline-block text-center";
+  const ctaButtonOutlineClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform border-2 border-green-500 text-green-500 bg-transparent hover:bg-green-50 hover:text-green-700 hover:scale-110 inline-block text-center";
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -215,7 +218,6 @@ const ServicesPage = () => {
     }
   }, []);
 
-  // Sync language changes
   useEffect(() => {
     const handleLanguageChange = () => {
       setLanguage(getLanguage());
@@ -230,9 +232,6 @@ const ServicesPage = () => {
 
   const t = (key) => TRANSLATIONS[language]?.[key] || TRANSLATIONS.en[key] || key;
 
-  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
-
-  // Helper for theme-based class
   const themedClass = (base, dark, light) =>
     `${base} ${theme === 'dark' ? dark : light}`;
 
@@ -293,8 +292,6 @@ const ServicesPage = () => {
       "bg-gray-900 text-gray-100",
       "bg-white text-gray-800"
     )}>
-      
-
       {/* Hero Section */}
       <section className="w-full h-screen relative flex items-center justify-center text-white overflow-hidden">
         <video
@@ -314,9 +311,9 @@ const ServicesPage = () => {
           viewport={{ once: true }}
           className="relative text-center px-4 z-10"
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">
             {t('heroTitle')}
-          </h1>
+          </h2>
           <p className="text-xl md:text-2xl mb-8">
             {t('heroSubtitle')}
           </p>
@@ -324,139 +321,112 @@ const ServicesPage = () => {
             href="/blog"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={themedClass(
-              "px-8 py-3 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all",
-              "bg-[#22c55e] text-white",
-              "bg-white text-green-600"
-            )}
+            className={ctaButtonClass}
           >
             {t('heroCta')}
           </motion.a>
         </motion.div>
       </section>
 
-
-      
-
       {/* Services Grid */}
       <div className="w-full overflow-hidden">
-  {/* 🔥 Section Heading */}
-  <div className="text-center my-12">
-    <motion.h2
-      initial={{ opacity: 0, y: 50, scale: 0.8 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      viewport={{ once: true }}
-      dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
-      className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-wide"
-    >
-      <span className="relative inline-block">
-        <motion.span
-          className="absolute -inset-1 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 blur-lg opacity-30 rounded-full"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        <span className="relative">{t("Title")}</span>
-      </span>
-    </motion.h2>
-
-    {/* Underline Animation */}
-    <motion.div
-      initial={{ width: 0 }}
-      whileInView={{ width: "120px" }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      viewport={{ once: true }}
-      className="h-1 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full mx-auto mt-4"
-    />
-  </div>
-
-  {/* 🔥 Service Cards */}
-  {services.map((service, index) => (
-    <motion.section
-      key={index}
-      initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true }}
-      className={`${service.bgColor} py-20 px-4 sm:px-6 lg:px-12 w-full`}
-      dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
-    >
-      <div
-        className={`max-w-7xl mx-auto flex flex-col ${
-          index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-        } items-center gap-10 md:gap-20`}
-      >
-        {/* Service Icon */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="w-44 h-44 md:w-52 md:h-52 rounded-xl overflow-hidden mb-8 md:mb-0 shadow-lg"
-        >
-          <img
-            src={service.icon}
-            alt={service.title}
-            className="w-full h-full object-cover"
+        <div className="text-center my-12">
+          <motion.h2
+            initial={{ opacity: 0, y: 50, scale: 0.8 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
+            className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white tracking-wide drop-shadow-lg"
+          >
+            <span className="relative inline-block">
+              <motion.span
+                className="absolute -inset-1 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 blur-lg opacity-30 rounded-full"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              />
+              <span className="relative">{t("Title")}</span>
+            </span>
+          </motion.h2>
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "120px" }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="h-1 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full mx-auto mt-4"
           />
-        </motion.div>
-
-        {/* Service Content */}
-        <div className="flex-1">
-          {/* ✅ Heading */}
-          <h2
-            className={themedClass(
-              "text-3xl md:text-4xl font-bold mb-4 text-green-700 bg-clip-text",
-              "text-white", // dark mode → bright
-              "text-green-800" // light mode
-            )}
-          >
-            {service.title}
-          </h2>
-
-          {/* ✅ Description */}
-          <p
-            className={themedClass(
-              "text-lg mb-6 text-justify",
-              "text-gray-200", // dark mode → visible
-              "text-gray-700"
-            )}
-          >
-            {service.description}
-          </p>
-
-          {/* ✅ Details */}
-          <p
-            className={themedClass(
-              "mb-6 text-justify",
-              "text-gray-300", // lighter in dark mode
-              "text-gray-600"
-            )}
-          >
-            {index === 0 && t("service1Detail")}
-            {index === 1 && t("service2Detail")}
-            {index === 2 && t("service3Detail")}
-            {index === 3 && t("service4Detail")}
-            {index === 4 && t("service5Detail")}
-            {index === 5 && t("service6Detail")}
-          </p>
-
-          {/* ✅ Button always readable */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              to="/nutrition"
-              className={themedClass(
-                "px-6 py-3 rounded-full font-medium transition-colors inline-block",
-                "bg-green-500 text-white hover:bg-green-600", // dark mode
-                "bg-green-600 text-white hover:bg-green-700" // light mode
-              )}
-            >
-              {service.buttonText}
-            </Link>
-          </motion.div>
         </div>
+        {services.map((service, index) => (
+          <motion.section
+            key={index}
+            initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className={`${service.bgColor} py-20 px-4 sm:px-6 lg:px-12 w-full`}
+            dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
+          >
+            <div
+              className={`max-w-7xl mx-auto flex flex-col ${
+                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              } items-center gap-10 md:gap-20`}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="w-44 h-44 md:w-52 md:h-52 rounded-xl overflow-hidden mb-8 md:mb-0 shadow-lg"
+              >
+                <img
+                  src={service.icon}
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+              <div className="flex-1">
+                <h2
+                  className={themedClass(
+                    "text-3xl md:text-4xl font-bold mb-4 text-green-700 bg-clip-text drop-shadow-lg",
+                    "text-white",
+                    "text-green-800"
+                  )}
+                >
+                  {service.title}
+                </h2>
+                <p
+                  className={themedClass(
+                    "text-lg mb-6 text-justify",
+                    "text-gray-200",
+                    "text-gray-700"
+                  )}
+                >
+                  {service.description}
+                </p>
+                <p
+                  className={themedClass(
+                    "mb-6 text-justify",
+                    "text-gray-300",
+                    "text-gray-600"
+                  )}
+                >
+                  {index === 0 && t("service1Detail")}
+                  {index === 1 && t("service2Detail")}
+                  {index === 2 && t("service3Detail")}
+                  {index === 3 && t("service4Detail")}
+                  {index === 4 && t("service5Detail")}
+                  {index === 5 && t("service6Detail")}
+                </p>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    to="/nutrition"
+                    className={ctaButtonClass}
+                  >
+                    {service.buttonText}
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </motion.section>
+        ))}
       </div>
-    </motion.section>
-  ))}
-</div>
-
 
       {/* CTA Section */}
       <motion.section
@@ -470,7 +440,6 @@ const ServicesPage = () => {
           "bg-gradient-to-b from-green-100 to-green-200"
         )}
       >
-        {/* Decorative floating circles */}
         <div className={themedClass(
           "absolute top-10 left-10 w-32 h-32 rounded-full opacity-20 animate-pulse",
           "bg-green-700",
@@ -486,7 +455,6 @@ const ServicesPage = () => {
           "bg-green-600",
           "bg-green-200"
         )}></div>
-
         <motion.div
           initial={{ y: 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -494,13 +462,12 @@ const ServicesPage = () => {
           className="relative z-10 max-w-3xl mx-auto text-center"
         >
           <h2 className={themedClass(
-            "text-3xl md:text-4xl font-extrabold mb-6 drop-shadow-md",
+            "text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-md",
             "text-green-200",
             "text-green-800"
           )}>
             {t('ctaHeading')}
           </h2>
-
           <p className={themedClass(
             "text-md md:text-lg mb-10 leading-relaxed text-justify",
             "text-green-100",
@@ -508,7 +475,6 @@ const ServicesPage = () => {
           )}>
             {t('ctaBody')}
           </p>
-
           <div className="flex flex-col sm:flex-row justify-center gap-6 mt-6">
             <motion.div
               whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(0,0,0,0.15)' }}
@@ -516,27 +482,18 @@ const ServicesPage = () => {
             >
               <Link
                 to="/blog"
-                className={themedClass(
-                  "px-10 py-4 rounded-full font-semibold text-lg shadow-md transition-all inline-block text-center",
-                  "bg-[#22c55e] text-white",
-                  "bg-white text-green-700"
-                )}
+                className={ctaButtonClass}
               >
                 {t('ctaBtn1')}
               </Link>
             </motion.div>
-
             <motion.div
               whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(0,0,0,0.15)' }}
               whileTap={{ scale: 0.95 }}
             >
               <Link
                 to="/contact"
-                className={themedClass(
-                  "border-2 px-10 py-4 rounded-full font-semibold text-lg transition-all inline-block text-center",
-                  "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e] hover:text-white",
-                  "border-green-700 text-green-700 hover:bg-green-700 hover:text-white"
-                )}
+                className={ctaButtonOutlineClass}
               >
                 {t('ctaBtn2')}
               </Link>
@@ -545,7 +502,7 @@ const ServicesPage = () => {
         </motion.div>
       </motion.section>
 
-      {/* --- New Section 1: Success Stories --- */}
+      {/* Success Stories */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -571,7 +528,6 @@ const ServicesPage = () => {
         )}>
           {t('successBody')}
         </p>
-
         <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-10 max-w-full">
           {[
             {
@@ -599,14 +555,11 @@ const ServicesPage = () => {
                 "from-green-100 to-green-200"
               )}
             >
-              {/* Accent strip on top */}
               <div className={themedClass(
                 "absolute top-0 left-0 w-full h-2",
                 "bg-green-400",
                 "bg-green-600"
               )}></div>
-
-              {/* Icon in circle */}
               <div className={themedClass(
                 "flex items-center justify-center w-20 h-20 rounded-full text-4xl mb-6 mx-auto shadow-md",
                 "bg-green-700 text-white",
@@ -614,7 +567,6 @@ const ServicesPage = () => {
               )}>
                 {item.icon}
               </div>
-
               <h3 className={themedClass(
                 "text-2xl font-bold mb-3",
                 "text-green-200",
@@ -630,7 +582,7 @@ const ServicesPage = () => {
         </div>
       </motion.section>
 
-      {/* --- New Section 2: Wellness Tips --- */}
+      {/* Wellness Tips */}
       <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -649,7 +601,6 @@ const ServicesPage = () => {
         )}>
           {t('tipsHeading')}
         </h2>
-
         <div className="max-w-6xl mx-auto flex flex-col gap-16">
           {[
             {
@@ -667,7 +618,7 @@ const ServicesPage = () => {
               title: t('tip3Title'),
               desc: t('tip3Desc')
             }
-          ].map((tip, idx) => ( 
+          ].map((tip, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, x: -100 }}
@@ -675,7 +626,6 @@ const ServicesPage = () => {
               transition={{ duration: 0.8, delay: idx * 0.3 }}
               className="flex flex-col md:flex-row items-start gap-8 md:gap-12 w-full"
             >
-              {/* Icon in larger circle */}
               <div className={themedClass(
                 "flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-full text-4xl md:text-6xl flex items-center justify-center shadow-lg",
                 "bg-green-700 text-white",
@@ -683,8 +633,6 @@ const ServicesPage = () => {
               )}>
                 {tip.icon}
               </div>
-
-              {/* Text */}
               <div className="text-left flex-1">
                 <h3 className={themedClass(
                   "text-2xl md:text-3xl font-bold mb-3",
@@ -704,70 +652,57 @@ const ServicesPage = () => {
         </div>
       </motion.section>
 
-      {/* --- New Section 3: Book a Workshop --- */}
+      {/* Book a Workshop */}
       <motion.section
-  initial={{ opacity: 0, x: -50 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  transition={{ duration: 1 }}
-  viewport={{ once: true }}
-  className={themedClass(
-    "relative py-32 px-4 sm:px-6 lg:px-8 text-center",
-    "text-white",
-    "text-white-900"
-  )}
-  style={{
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundAttachment: "fixed",
-  }}
->
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-green-900 bg-opacity-50"></div>
-
-  {/* Content */}
-  <div className="relative z-10 max-w-3xl mx-auto">
-    <h2
-      className={themedClass(
-        "text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg",
-        "text-white",
-        "text-white-900"
-      )}
-    >
-      {t("workshopHeading")}
-    </h2>
-
-    {/* ✅ One-line paragraph */}
-    <p
-      className={themedClass(
-        "text-lg md:text-xl mb-8 drop-shadow-md",
-        "text-green-100",
-        "text-green-900"
-      )}
-    >
-      {t("Join us for an engaging workshop experience.", language)}
-    </p>
-
-    {/* Button */}
-    <motion.a
-      href="/contact"
-      whileHover={{
-        scale: 1.05,
-        boxShadow: "0 0 20px rgba(255,255,255,0.5)",
-      }}
-      whileTap={{ scale: 0.95 }}
-      className={themedClass(
-        "inline-block px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all",
-        "bg-white text-green-600",
-        "bg-green-700 text-white"
-      )}
-    >
-      {t("workshopBtn")}
-    </motion.a>
-  </div>
-</motion.section>
-
-
+        initial={{ opacity: 0, x: -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        className={themedClass(
+          "relative py-32 px-4 sm:px-6 lg:px-8 text-center",
+          "text-white",
+          "text-white-900"
+        )}
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        <div className="absolute inset-0 bg-green-900 bg-opacity-50"></div>
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <h2
+            className={themedClass(
+              "text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg",
+              "text-white",
+              "text-white-900"
+            )}
+          >
+            {t("workshopHeading")}
+          </h2>
+          <p
+            className={themedClass(
+              "text-lg md:text-xl mb-8 drop-shadow-md",
+              "text-green-100",
+              "text-green-900"
+            )}
+          >
+            {t("Join us for an engaging workshop experience.", language)}
+          </p>
+          <motion.a
+            href="/contact"
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 0 20px rgba(255,255,255,0.5)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            className={ctaButtonClass}
+          >
+            {t("workshopBtn")}
+          </motion.a>
+        </div>
+      </motion.section>
     </div>
   );
 };

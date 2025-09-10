@@ -1,516 +1,430 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-
-const THEME_KEY = "theme";
-const LANGUAGE_KEY = "language";
+import welcomeImg from "../assets/1.jpg";
+import logoImg from "../assets/logo-dark.png";
 
 const translations = {
   en: {
+    weMake: "We Promote",
+    dreamHouses: "Health and Wellness",
     login: "Login",
-    signup: "Sign Up",
     email: "Email",
     password: "Password",
+    forgotPassword: "Forgot password?",
     loginBtn: "Login",
-    signupBtn: "Sign Up",
-    noAccount: "Don't have an account? Sign up",
-    haveAccount: "Already have an account? Login",
+    noAccount: "Don’t have an account?",
+    signup: "Sign up",
+    resetPassword: "Reset Password",
+    newPassword: "New Password",
+    confirmNewPassword: "Confirm New Password",
+    resetBtn: "Reset Password",
+    cancel: "Cancel",
+    signupTitle: "Sign Up",
     firstName: "First Name",
     lastName: "Last Name",
-    invalid: "Invalid email or password.",
-    exists: "User already exists.",
-    success: "Sign up successful! Please login.",
-    english: "English",
-    arabic: "Arabic",
-    hebrew: "Hebrew",
-    features: [
-      {
-        title: "Personalized Experience",
-        desc: "Your dashboard and recommendations adapt to your goals."
-      },
-      {
-        title: "Multi-language Support",
-        desc: "Switch between English, Arabic, and Hebrew instantly."
-      },
-      {
-        title: "Light & Dark Mode",
-        desc: "Enjoy a beautiful interface in any lighting."
-      }
-    ]
+    phone: "Phone Number",
+    confirmPassword: "Confirm Password",
+    signupBtn: "Sign Up",
+    haveAccount: "Already have an account?",
+    passwordsNotMatch: "Passwords do not match.",
+    emailExists: "Email already registered.",
+    signupSuccess: "Signup successful!",
+    invalidLogin: "Invalid email or password.",
+    emailNotFound: "Email not found.",
+    passwordUpdated: "Password updated successfully!",
+    adminEmail: "admin@enkonix.in",
+    adminPassword: "admin123",
+    selectLanguage: "Language"
   },
   ar: {
+    weMake: "نحن نعزز",
+    dreamHouses: "الصحة والعافية",
     login: "تسجيل الدخول",
-    signup: "إنشاء حساب",
     email: "البريد الإلكتروني",
     password: "كلمة المرور",
+    forgotPassword: "نسيت كلمة المرور؟",
     loginBtn: "تسجيل الدخول",
-    signupBtn: "إنشاء حساب",
-    noAccount: "ليس لديك حساب؟ أنشئ حسابًا",
-    haveAccount: "لديك حساب بالفعل؟ تسجيل الدخول",
+    noAccount: "ليس لديك حساب؟",
+    signup: "إنشاء حساب",
+    resetPassword: "إعادة تعيين كلمة المرور",
+    newPassword: "كلمة مرور جديدة",
+    confirmNewPassword: "تأكيد كلمة المرور الجديدة",
+    resetBtn: "إعادة تعيين",
+    cancel: "إلغاء",
+    signupTitle: "إنشاء حساب",
     firstName: "الاسم الأول",
     lastName: "اسم العائلة",
-    invalid: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-    exists: "المستخدم موجود بالفعل.",
-    success: "تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول.",
-    english: "الإنجليزية",
-    arabic: "العربية",
-    hebrew: "العبرية",
-    features: [
-      {
-        title: "تجربة مخصصة",
-        desc: "لوحتك وتوصياتك تتكيف مع أهدافك."
-      },
-      {
-        title: "دعم متعدد اللغات",
-        desc: "بدّل بين الإنجليزية والعربية والعبرية فورًا."
-      },
-      {
-        title: "الوضع الليلي والنهاري",
-        desc: "واجهة جميلة في جميع الأوقات."
-      }
-    ]
+    phone: "رقم الهاتف",
+    confirmPassword: "تأكيد كلمة المرور",
+    signupBtn: "إنشاء حساب",
+    haveAccount: "لديك حساب بالفعل؟",
+    passwordsNotMatch: "كلمات المرور غير متطابقة.",
+    emailExists: "البريد الإلكتروني مسجل بالفعل.",
+    signupSuccess: "تم التسجيل بنجاح!",
+    invalidLogin: "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    emailNotFound: "البريد الإلكتروني غير موجود.",
+    passwordUpdated: "تم تحديث كلمة المرور بنجاح!",
+    adminEmail: "admin@enkonix.in",
+    adminPassword: "admin123",
+    selectLanguage: "اختر اللغة"
   },
   he: {
+    weMake: "אנו מקדמים",
+    dreamHouses: "בריאות ורווחה",
     login: "התחברות",
-    signup: "הרשמה",
     email: "אימייל",
     password: "סיסמה",
+    forgotPassword: "שכחת סיסמה?",
     loginBtn: "התחבר",
-    signupBtn: "הרשם",
-    noAccount: "אין לך חשבון? הירשם",
-    haveAccount: "כבר יש לך חשבון? התחבר",
+    noAccount: "אין לך חשבון?",
+    signup: "הרשמה",
+    resetPassword: "איפוס סיסמה",
+    newPassword: "סיסמה חדשה",
+    confirmNewPassword: "אישור סיסמה חדשה",
+    resetBtn: "איפוס סיסמה",
+    cancel: "ביטול",
+    signupTitle: "הרשמה",
     firstName: "שם פרטי",
     lastName: "שם משפחה",
-    invalid: "אימייל או סיסמה שגויים.",
-    exists: "המשתמש כבר קיים.",
-    success: "נרשמת בהצלחה! אנא התחבר.",
-    english: "אנגלית",
-    arabic: "ערבית",
-    hebrew: "עברית",
-    features: [
-      {
-        title: "חוויה מותאמת אישית",
-        desc: "הדשבורד וההמלצות מותאמים למטרות שלך."
-      },
-      {
-        title: "תמיכה רב-לשונית",
-        desc: "החלף בין אנגלית, ערבית ועברית מיד."
-      },
-      {
-        title: "מצב כהה ובהיר",
-        desc: "ממשק יפהפה בכל תאורה."
-      }
-    ]
+    phone: "מספר טלפון",
+    confirmPassword: "אישור סיסמה",
+    signupBtn: "הרשם",
+    haveAccount: "כבר יש לך חשבון?",
+    passwordsNotMatch: "הסיסמאות אינן תואמות.",
+    emailExists: "האימייל כבר רשום.",
+    signupSuccess: "ההרשמה הצליחה!",
+    invalidLogin: "אימייל או סיסמה שגויים.",
+    emailNotFound: "האימייל לא נמצא.",
+    passwordUpdated: "הסיסמה עודכנה בהצלחה!",
+    adminEmail: "admin@enkonix.in",
+    adminPassword: "admin123",
+    selectLanguage: "שפה"
   }
 };
 
-const t = (key, lang) => translations[lang]?.[key] || translations.en[key];
+function getDirection(lang) {
+  return lang === "ar" || lang === "he" ? "rtl" : "ltr";
+}
 
-const rtlLangs = ["ar", "he"];
-
-const Login = () => {
-  const navigate = useNavigate();
-
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem(THEME_KEY) || "light";
-    }
-    return "light";
-  });
-
-  const [language, setLanguage] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem(LANGUAGE_KEY) || "en";
-    }
-    return "en";
-  });
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleThemeChange = () => {
-        setTheme(localStorage.getItem(THEME_KEY) || "light");
-      };
-      window.addEventListener("theme-changed", handleThemeChange);
-      window.addEventListener("storage", handleThemeChange);
-
-      const handleLanguageChange = () => {
-        setLanguage(localStorage.getItem(LANGUAGE_KEY) || "en");
-      };
-      window.addEventListener("language-changed", handleLanguageChange);
-      window.addEventListener("storage", handleLanguageChange);
-
-      return () => {
-        window.removeEventListener("theme-changed", handleThemeChange);
-        window.removeEventListener("storage", handleThemeChange);
-        window.removeEventListener("language-changed", handleLanguageChange);
-        window.removeEventListener("storage", handleLanguageChange);
-      };
-    }
-  }, []);
-
-  // Sync theme and language with localStorage and document
-  useEffect(() => {
-    localStorage.setItem(THEME_KEY, theme);
-    document.documentElement.setAttribute("data-theme", theme);
-    window.dispatchEvent(new Event("theme-changed"));
-  }, [theme]);
-
-  useEffect(() => {
-    localStorage.setItem(LANGUAGE_KEY, language);
-    document.documentElement.setAttribute("dir", rtlLangs.includes(language) ? "rtl" : "ltr");
-    window.dispatchEvent(new Event("language-changed"));
-  }, [language]);
-
-  const themedClass = (base, dark, light) =>
-    `${base} ${theme === "dark" ? dark : light}`;
-
-  const dir = rtlLangs.includes(language) ? "rtl" : "ltr";
-
-  const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [signUpData, setSignUpData] = useState({
+export default function WelcomePage() {
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotPassword, setForgotPassword] = useState("");
+  const [forgotConfirm, setForgotConfirm] = useState("");
+  const [showSignup, setShowSignup] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     password: "",
+    confirmPassword: ""
   });
-  const [error, setError] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
+  const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
 
-  // Feature carousel state
-  const [featureIdx, setFeatureIdx] = useState(0);
-  const features = t("features", language);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setFeatureIdx((prev) => (prev + 1) % features.length);
-    }, 3500);
-    return () => clearInterval(timer);
-    // eslint-disable-next-line
-  }, [features, language]);
+    document.documentElement.dir = getDirection(language);
+  }, [language]);
 
-  const handleLoginChange = (e) =>
-    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  const t = useMemo(() => translations[language], [language]);
+  const isRtl = getDirection(language) === "rtl";
 
-  const handleSignUpChange = (e) =>
-    setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
-
-  const handleLoginSubmit = (e) => {
+  const handleForgotPassword = (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    if (
-      loginData.email === "admin@enkonix.in" &&
-      loginData.password === "admin123"
-    ) {
-      setError("");
-      localStorage.setItem("loggedInUserEmail", loginData.email);
-      navigate("/Admindashboard");
+    if (forgotPassword !== forgotConfirm) {
+      alert(t.passwordsNotMatch);
       return;
     }
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const idx = users.findIndex((u) => u.email === forgotEmail);
+    if (idx === -1) {
+      alert(t.emailNotFound);
+      return;
+    }
+    users[idx].password = forgotPassword;
+    localStorage.setItem("users", JSON.stringify(users));
+    alert(t.passwordUpdated);
+    setShowForgot(false);
+    setForgotEmail("");
+    setForgotPassword("");
+    setForgotConfirm("");
+  };
 
-    const user = users.find(
-      (user) =>
-        user.email === loginData.email &&
-        user.password === loginData.password
-    );
-
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Trim input values to avoid space issues
+    const email = loginEmail.trim();
+    const password = loginPassword.trim();
+    // Admin login check
+    if (email === t.adminEmail) {
+      if (password === t.adminPassword) {
+        localStorage.setItem("firstname", "Admin");
+        localStorage.setItem("lastname", "Dashboard");
+        localStorage.setItem("email", email);
+        navigate("/admindashboard");
+        return;
+      } else {
+        alert("Admin password is incorrect.");
+        return;
+      }
+    }
+    // Normal user login
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const user = users.find((u) => u.email === email && u.password === password);
     if (user) {
-      setError("");
-      localStorage.setItem("loggedInUserEmail", JSON.stringify(user));
-      if (user.firstName) localStorage.setItem("firstname", user.firstName);
-      if (user.lastName) localStorage.setItem("lastname", user.lastName);
+      localStorage.setItem("firstname", user.firstName || "");
+      localStorage.setItem("lastname", user.lastName || "");
+      localStorage.setItem("email", user.email || "");
       navigate("/home1");
     } else {
-      setError(t("invalid", language));
+      alert(t.invalidLogin);
     }
   };
 
-  const handleSignUpSubmit = (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    if (users.find((user) => user.email === signUpData.email)) {
-      setError(t("exists", language));
+    if (signupData.password !== signupData.confirmPassword) {
+      alert(t.passwordsNotMatch);
       return;
     }
-
-    users.push(signUpData);
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    if (users.find((u) => u.email === signupData.email)) {
+      alert(t.emailExists);
+      return;
+    }
+    const now = new Date();
+    const newUser = {
+      firstName: signupData.firstName,
+      lastName: signupData.lastName,
+      email: signupData.email,
+      phone: signupData.phone,
+      password: signupData.password,
+      signupTime: now.toLocaleTimeString(),
+      signupDate: now.toLocaleDateString()
+    };
+    users.push(newUser);
     localStorage.setItem("users", JSON.stringify(users));
-    setError("");
-    alert(t("success", language));
-    setSignUpData({ firstName: "", lastName: "", email: "", password: "" });
-    setIsLogin(true);
+    alert(t.signupSuccess);
+    setShowSignup(false);
+    setSignupData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: ""
+    });
   };
 
-  // --- THEME & LANGUAGE TOGGLE BUTTONS ---
-  const themeToggleBtn = (
-    <button
-      className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors duration-200 absolute top-4 right-4 z-10 ${theme === 'dark' ? 'bg-gray-800 border-gray-700 hover:bg-gray-700' : 'bg-green-100 border-green-300 hover:bg-green-200'}`}
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      aria-label="Toggle dark mode"
-      type="button"
-    >
-      {theme === "dark" ? (
-        <svg className="w-5 h-5 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m15.07 4.93l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      ) : (
-        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-      )}
-    </button>
-  );
-
-  const languageToggleBtn = (
-    <div className="absolute top-4 left-4 z-10 flex items-center">
-      <label htmlFor="language-select" className={`mr-2 text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>🌐</label>
-      <select
-        id="language-select"
-        value={language}
-        onChange={e => setLanguage(e.target.value)}
-        className={`text-sm rounded-md border px-2 py-1 focus:outline-none ${theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : 'bg-white border-gray-300 text-gray-800'}`}
-      >
-        <option value="en">{t("english", language)}</option>
-        <option value="ar">{t("arabic", language)}</option>
-        <option value="he">{t("hebrew", language)}</option>
-      </select>
-    </div>
-  );
-
-  // Animated background style (light: animated gradient, dark: solid black)
-  const animatedBgLight =
-    "fixed inset-0 z-0 animate-gradient bg-gradient-to-br from-green-200 via-blue-200 to-purple-200";
-  const animatedBgDark =
-    "fixed inset-0 z-0 bg-black";
-
-  // Add keyframes for gradient animation (for light mode)
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.innerHTML = `
-      @keyframes gradientMove {
-        0% { background-position: 0% 50% }
-        50% { background-position: 100% 50% }
-        100% { background-position: 0% 50% }
-      }
-      .animate-gradient {
-        background-size: 200% 200%;
-        animation: gradientMove 8s ease-in-out infinite;
-      }
-    `;
-    document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
-  }, []);
-
-  // Fade-in animation for login box
-  const [fadeIn, setFadeIn] = useState(false);
-  useEffect(() => {
-    setFadeIn(true);
-  }, []);
+  const handleLanguageChange = (e) => {
+    const newLang = e.target.value;
+    setLanguage(newLang);
+    localStorage.setItem("language", newLang);
+    document.documentElement.dir = getDirection(newLang);
+  };
 
   return (
-    <div dir={dir} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ fontFamily: "Arial, sans-serif" }}>
-      <div className={theme === "dark" ? animatedBgDark : animatedBgLight} />
-      {themeToggleBtn}
-      {languageToggleBtn}
-      <div
-        className={`
-          w-full max-w-md p-8 rounded-xl shadow-lg relative z-10
-          ${theme === "dark" ? "bg-[#1a1a1a] text-green-100" : "bg-white text-green-900"}
-          ${fadeIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
-          transition-all duration-700
-        `}
-        style={{ boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.18)" }}
-      >
-        <h2
-          className={themedClass(
-            "text-3xl font-bold mb-6 text-center",
-            "text-green-200",
-            "text-green-700"
-          )}
-        >
-          {isLogin ? t("login", language) : t("signup", language)}
-        </h2>
+    <div className="relative w-full h-screen bg-white text-gray-900" dir={isRtl ? "rtl" : "ltr"}>
+      <img
+        src={welcomeImg}
+        alt="Welcome"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-        {isLogin ? (
-          <form onSubmit={handleLoginSubmit} className="flex flex-col gap-4">
-            <input
-              className={themedClass(
-                "p-3 rounded border focus:outline-none transition",
-                "bg-[#222] border-green-700 text-green-100 focus:ring-2 focus:ring-green-400",
-                "bg-green-50 border-green-400 text-green-900 focus:ring-2 focus:ring-green-700"
-              )}
-              type="email"
-              name="email"
-              placeholder={t("email", language)}
-              value={loginData.email}
-              onChange={handleLoginChange}
-              required
-              autoFocus
-            />
-            <input
-              className={themedClass(
-                "p-3 rounded border focus:outline-none transition",
-                "bg-[#222] border-green-700 text-green-100 focus:ring-2 focus:ring-green-400",
-                "bg-green-50 border-green-400 text-green-900 focus:ring-2 focus:ring-green-700"
-              )}
-              type="password"
-              name="password"
-              placeholder={t("password", language)}
-              value={loginData.password}
-              onChange={handleLoginChange}
-              required
-            />
-            <button
-              type="submit"
-              className={themedClass(
-                "p-3 rounded font-semibold mt-2 transition",
-                "bg-green-700 text-white hover:bg-green-600",
-                "bg-green-600 text-white hover:bg-green-700"
-              )}
+      <div className="relative flex items-center justify-center h-full px-2 sm:px-0">
+        <div className="w-full max-w-md p-6 rounded-xl shadow-lg bg-white/90">
+          <div className="flex justify-between items-center mb-4">
+            <img src={logoImg} alt="Logo" className="h-15 w-24" />
+            <select
+              value={language}
+              onChange={handleLanguageChange}
+              className="border rounded-lg p-2 text-sm"
             >
-              {t("loginBtn", language)}
-            </button>
-            <p
-              className={themedClass(
-                "mt-2 cursor-pointer text-center underline",
-                "text-green-200 hover:text-green-400",
-                "text-green-700 hover:text-green-900"
-              )}
-              onClick={() => {
-                setError("");
-                setIsLogin(false);
-              }}
-            >
-              {t("noAccount", language)}
-            </p>
-          </form>
-        ) : (
-          <form onSubmit={handleSignUpSubmit} className="flex flex-col gap-4">
-            <input
-              className={themedClass(
-                "p-3 rounded border focus:outline-none transition",
-                "bg-[#222] border-green-700 text-green-100 focus:ring-2 focus:ring-green-400",
-                "bg-green-50 border-green-400 text-green-900 focus:ring-2 focus:ring-green-700"
-              )}
-              type="text"
-              name="firstName"
-              placeholder={t("firstName", language)}
-              value={signUpData.firstName}
-              onChange={handleSignUpChange}
-              required
-            />
-            <input
-              className={themedClass(
-                "p-3 rounded border focus:outline-none transition",
-                "bg-[#222] border-green-700 text-green-100 focus:ring-2 focus:ring-green-400",
-                "bg-green-50 border-green-400 text-green-900 focus:ring-2 focus:ring-green-700"
-              )}
-              type="text"
-              name="lastName"
-              placeholder={t("lastName", language)}
-              value={signUpData.lastName}
-              onChange={handleSignUpChange}
-              required
-            />
-            <input
-              className={themedClass(
-                "p-3 rounded border focus:outline-none transition",
-                "bg-[#222] border-green-700 text-green-100 focus:ring-2 focus:ring-green-400",
-                "bg-green-50 border-green-400 text-green-900 focus:ring-2 focus:ring-green-700"
-              )}
-              type="email"
-              name="email"
-              placeholder={t("email", language)}
-              value={signUpData.email}
-              onChange={handleSignUpChange}
-              required
-            />
-            <input
-              className={themedClass(
-                "p-3 rounded border focus:outline-none transition",
-                "bg-[#222] border-green-700 text-green-100 focus:ring-2 focus:ring-green-400",
-                "bg-green-50 border-green-400 text-green-900 focus:ring-2 focus:ring-green-700"
-              )}
-              type="password"
-              name="password"
-              placeholder={t("password", language)}
-              value={signUpData.password}
-              onChange={handleSignUpChange}
-              required
-            />
-            <button
-              type="submit"
-              className={themedClass(
-                "p-3 rounded font-semibold mt-2 transition",
-                "bg-green-700 text-white hover:bg-green-600",
-                "bg-green-600 text-white hover:bg-green-700"
-              )}
-            >
-              {t("signupBtn", language)}
-            </button>
-            <p
-              className={themedClass(
-                "mt-2 cursor-pointer text-center underline",
-                "text-green-200 hover:text-green-400",
-                "text-green-700 hover:text-green-900"
-              )}
-              onClick={() => {
-                setError("");
-                setIsLogin(true);
-              }}
-            >
-              {t("haveAccount", language)}
-            </p>
-          </form>
-        )}
-
-        {error && (
-          <p
-            className={themedClass(
-              "mt-4 text-center font-semibold",
-              "text-red-400",
-              "text-red-600"
-            )}
-          >
-            {error}
-          </p>
-        )}
-      </div>
-
-      {/* Animated Feature Carousel */}
-      <div className="relative z-10 mt-10 w-full flex justify-center">
-        <div
-          className={`
-            max-w-md w-full px-6 py-4 rounded-lg shadow-md
-            bg-white/80 dark:bg-gray-900/80
-            flex flex-col items-center
-            transition-all duration-700
-            animate-fadeIn
-          `}
-          style={{
-            minHeight: 90,
-            backdropFilter: "blur(6px)",
-            WebkitBackdropFilter: "blur(6px)",
-          }}
-        >
-          <div className="flex items-center gap-3">
-            <svg className="w-8 h-8 text-green-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" strokeWidth="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12l2 2 4-4" />
-            </svg>
-            <div>
-              <div className="font-bold text-lg text-green-700 dark:text-green-200 transition-all duration-500">
-                {features[featureIdx].title}
-              </div>
-              <div className="text-gray-700 dark:text-gray-200 text-sm mt-1 transition-all duration-500">
-                {features[featureIdx].desc}
-              </div>
-            </div>
+              <option value="en">🇬🇧 English</option>
+              <option value="ar">🇸🇦 العربية</option>
+              <option value="he">🇮🇱 עברית</option>
+            </select>
           </div>
+
+          <div className="mb-6 text-center">
+            <h1 className="text-4xl font-bold text-green-600 whitespace-nowrap">
+              {t.dreamHouses}
+            </h1>
+          </div>
+
+          {!showSignup && !showForgot ? (
+            <>
+              <h2 className="text-2xl font-bold mb-6 text-green-600 text-center">
+                {t.login}
+              </h2>
+              <form className="space-y-4" onSubmit={handleLogin}>
+                <input
+                  type="email"
+                  placeholder={t.email}
+                  className="w-full border p-3 rounded-lg"
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder={t.password}
+                  className="w-full border p-3 rounded-lg"
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  required
+                />
+                <div className="flex justify-between items-center text-base">
+                  <button
+                    type="button"
+                    className="text-green-600 text-lg hover:underline"
+                    onClick={() => setShowForgot(true)}
+                  >
+                    {t.forgotPassword}
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600"
+                >
+                  {t.loginBtn}
+                </button>
+              </form>
+
+              <p className="mt-4 text-sm text-center">
+                {t.noAccount}{" "}
+                <button
+                  className="text-green-500 hover:underline"
+                  onClick={() => setShowSignup(true)}
+                >
+                  {t.signup}
+                </button>
+              </p>
+            </>
+          ) : showForgot ? (
+            <>
+              <h2 className="text-2xl font-bold mb-6 text-green-600 text-center">
+                {t.resetPassword}
+              </h2>
+              <form className="space-y-4" onSubmit={handleForgotPassword}>
+                <input
+                  type="email"
+                  placeholder={t.email}
+                  className="w-full border p-3 rounded-lg"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder={t.newPassword}
+                  className="w-full border p-3 rounded-lg"
+                  value={forgotPassword}
+                  onChange={(e) => setForgotPassword(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder={t.confirmNewPassword}
+                  className="w-full border p-3 rounded-lg"
+                  value={forgotConfirm}
+                  onChange={(e) => setForgotConfirm(e.target.value)}
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600"
+                >
+                  {t.resetBtn}
+                </button>
+                <button
+                  type="button"
+                  className="w-full mt-2 bg-gray-200 text-gray-700 p-3 rounded-lg hover:bg-gray-300"
+                  onClick={() => setShowForgot(false)}
+                >
+                  {t.cancel}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <h2 className="text-2xl font-bold mb-6 text-green-600 text-center">{t.signupTitle}</h2>
+              <form className="space-y-4" onSubmit={handleSignup}>
+                <div className="flex gap-2 flex-col sm:flex-row">
+                  <input
+                    type="text"
+                    placeholder={t.firstName}
+                    className="w-full sm:w-1/2 border p-3 rounded-lg"
+                    value={signupData.firstName}
+                    onChange={(e) => setSignupData({ ...signupData, firstName: e.target.value })}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder={t.lastName}
+                    className="w-full sm:w-1/2 border p-3 rounded-lg"
+                    value={signupData.lastName}
+                    onChange={(e) => setSignupData({ ...signupData, lastName: e.target.value })}
+                    required
+                  />
+                </div>
+                <input
+                  type="email"
+                  placeholder={t.email}
+                  className="w-full border p-3 rounded-lg"
+                  value={signupData.email}
+                  onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+                  required
+                />
+                <input
+                  type="tel"
+                  placeholder={t.phone}
+                  className="w-full border p-3 rounded-lg"
+                  value={signupData.phone}
+                  onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder={t.password}
+                  className="w-full border p-3 rounded-lg"
+                  value={signupData.password}
+                  onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder={t.confirmPassword}
+                  className="w-full border p-3 rounded-lg"
+                  value={signupData.confirmPassword}
+                  onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600"
+                >
+                  {t.signupBtn}
+                </button>
+              </form>
+
+              <p className="mt-4 text-sm text-center">
+                {t.haveAccount}{" "}
+                <button
+                  className="text-green-500 hover:underline"
+                  onClick={() => setShowSignup(false)}
+                >
+                  {t.login}
+                </button>
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
   );
-};
-
-export default Login;
+}

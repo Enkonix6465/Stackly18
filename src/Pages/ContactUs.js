@@ -245,64 +245,65 @@ const ContactUs = () => {
 
       {/* ===== CONTACT INFO CARDS ===== */}
       <motion.section
+  className={themedClass(
+    "w-full py-20 px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center",
+    "bg-gray-900",
+    "bg-gray-100"
+  )}
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1 }}
+  viewport={{ once: true }}
+>
+  {[
+    {
+      icon: "📍",
+      title: t("location", language),
+      info: t("locationInfo", language),
+    },
+    {
+      icon: "📞",
+      title: t("callUs", language),
+      info: t("callInfo", language),
+    },
+    {
+      icon: "✉️",
+      title: t("email", language),
+      info: "support@stackly.com",  // Stackly-related email
+    },
+  ].map((card, idx) => (
+    <motion.div
+      key={idx}
+      whileHover={{ scale: 1.05, y: -5 }}
+      className={themedClass(
+        "rounded-xl shadow-lg p-8 flex flex-col items-center justify-center transition-all",
+        "bg-gray-800",
+        "bg-white"
+      )}
+    >
+      <div className="text-3xl mb-4">{card.icon}</div> {/* Slightly smaller icons */}
+      <h3
         className={themedClass(
-          "w-full py-20 px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center",
-          "bg-gray-900",
-          "bg-gray-100"
+          "text-xl font-bold mb-2",
+          "text-gray-100",
+          "text-gray-800"
         )}
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
       >
-        {[
-          {
-            icon: "📍",
-            title: t("location", language),
-            info: t("locationInfo", language),
-          },
-          {
-            icon: "📞",
-            title: t("callUs", language),
-            info: t("callInfo", language),
-          },
-          {
-            icon: "✉️",
-            title: t("email", language),
-            info: t("emailInfo", language),
-          },
-        ].map((card, idx) => (
-          <motion.div
-            key={idx}
-            whileHover={{ scale: 1.05, y: -5 }}
-            className={themedClass(
-              "rounded-xl shadow-lg p-8 flex flex-col items-center justify-center transition-all",
-              "bg-gray-800",
-              "bg-white"
-            )}
-          >
-            <div className="text-6xl mb-4">{card.icon}</div>
-            <h3
-              className={themedClass(
-                "text-xl font-bold mb-2",
-                "text-gray-100",
-                "text-gray-800"
-              )}
-            >
-              {card.title}
-            </h3>
-            <p
-              className={themedClass(
-                "text-lg",
-                "text-gray-300",
-                "text-gray-700"
-              )}
-            >
-              {card.info}
-            </p>
-          </motion.div>
-        ))}
-      </motion.section>
+        {card.title}
+      </h3>
+      <p
+        className={themedClass(
+          "text-lg",
+          "text-gray-300",
+          "text-gray-700"
+        )}
+      >
+        {card.info}
+      </p>
+    </motion.div>
+  ))}
+</motion.section>
+
 
       {/* ===== MAP SECTION ===== */}
       <motion.section
@@ -329,76 +330,7 @@ const ContactUs = () => {
         ></div>
       </motion.section>
 
-      {/* ===== SOCIAL MEDIA SECTION ===== */}
-      <motion.section
-        className={themedClass(
-          "relative w-full py-28 px-4 flex flex-col items-center justify-center overflow-hidden",
-          "bg-gray-800",
-          "bg-gray-100"
-        )}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        viewport={{ once: true }}
-      >
-        <div
-          className={themedClass(
-            "absolute inset-0 opacity-30",
-            "bg-gray-900",
-            "bg-gray-100"
-          )}
-        ></div>
-        <h2
-          className={themedClass(
-            "text-4xl md:text-5xl font-bold mb-16 z-10 relative",
-            "text-gray-100",
-            "text-gray-800"
-          )}
-        >
-          {t("connect", language)}
-        </h2>
-        <div className="relative z-10 flex flex-wrap justify-center gap-12">
-          {[
-            {
-              icon: <FaInstagram />,
-              href: "https://instagram.com",
-              color: "#27ae60",
-            },
-            {
-              icon: <FaFacebookF />,
-              href: "https://facebook.com",
-              color: "#27ae60",
-            },
-            {
-              icon: <FaTwitter />,
-              href: "https://twitter.com",
-              color: "#27ae60",
-            },
-            {
-              icon: <FaLinkedinIn />,
-              href: "https://linkedin.com",
-              color: "#27ae60",
-            },
-          ].map((item, idx) => (
-            <motion.a
-              key={idx}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.2, color: item.color }}
-              whileTap={{ scale: 0.95 }}
-              className={themedClass(
-                "text-5xl md:text-6xl transition-colors duration-300",
-                "text-gray-200 hover:text-green-500",
-                "text-gray-700 hover:text-green-700"
-              )}
-            >
-              {item.icon}
-            </motion.a>
-          ))}
-        </div>
-      </motion.section>
-
+      
       {/* ===== NEWSLETTER SECTION ===== */}
       <motion.section
         className={themedClass(

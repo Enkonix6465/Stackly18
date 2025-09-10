@@ -127,6 +127,10 @@ const Blog = () => {
     return "en";
   });
 
+  // Consistent CTA button classes
+  const ctaButtonClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform bg-green-500 text-white hover:bg-green-600 hover:scale-110 inline-block text-center";
+  const ctaButtonOutlineClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform border-2 border-green-500 text-green-500 bg-transparent hover:bg-green-50 hover:text-green-700 hover:scale-110 inline-block text-center";
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem(THEME_KEY, theme);
@@ -250,11 +254,7 @@ const Blog = () => {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               to="/contact"
-              className={themedClass(
-                "px-8 py-4 rounded-full font-semibold shadow-lg inline-block text-center",
-                "bg-[#22c55e] text-white",
-                "bg-green-600 text-white"
-              )}
+              className={ctaButtonClass}
             >
               {t("contactNow", language)}
             </Link>
@@ -381,11 +381,7 @@ const Blog = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/article"
-                  className={themedClass(
-                    "px-6 py-2 rounded-full font-semibold transition-all inline-block text-center",
-                    "bg-[#22c55e] text-white hover:bg-green-700",
-                    "bg-green-600 text-white hover:bg-green-700"
-                  )}
+                  className={ctaButtonClass}
                 >
                   {t("readMore", language)}
                 </Link>
@@ -431,11 +427,7 @@ const Blog = () => {
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   to="/article"
-                  className={themedClass(
-                    "px-6 py-2 rounded-full font-semibold transition-all inline-block text-center",
-                    "bg-[#22c55e] text-white hover:bg-green-700",
-                    "bg-green-600 text-white hover:bg-green-700"
-                  )}
+                  className={ctaButtonClass}
                 >
                   {t("readMore", language)}
                 </Link>
@@ -493,74 +485,70 @@ const Blog = () => {
 
       {/* ===== 6. NEWSLETTER ===== */}
       <motion.section
-  className={themedClass(
-    "w-full py-24 px-4 text-center relative",
-    "text-white",
-    "text-black"
-  )}
-  initial={{ opacity: 0, y: 50 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  transition={{ duration: 1 }}
-  viewport={{ once: true }}
-  style={{
-    backgroundImage: `url(${image3})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundAttachment: "fixed",
-  }}
->
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
-  <div className="relative z-10 max-w-3xl mx-auto">
-    {/* Heading */}
-    <h2
-      className={themedClass(
-        "text-3xl md:text-4xl font-bold mb-6",
-        "text-white",   // Dark mode
-        "text-white"    // Light mode
-      )}
-    >
-      {t("newsletterTitle", language)}
-    </h2>
-
-    {/* Paragraph */}
-    <p
-      className={themedClass(
-        "max-w-2xl mx-auto mb-6",
-        "text-gray-200", // Dark mode
-        "text-white"  // Light mode
-      )}
-    >
-      {t("newsletterDesc", language)}
-    </p>
-
-    {/* Email + Subscribe Button */}
-    <div className="flex justify-center gap-4 flex-col sm:flex-row max-w-xl mx-auto">
-      <input
-        type="email"
-        placeholder={t("emailPlaceholder", language)}
-        className="p-4 rounded-full w-full sm:flex-1 text-white-800 focus:outline-none"
-      />
-      <motion.div
-        whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(0,0,0,0.2)" }}
-        whileTap={{ scale: 0.95 }}
-        className="inline-block"
+        className={themedClass(
+          "w-full py-24 px-4 text-center relative",
+          "text-white",
+          "text-black"
+        )}
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        viewport={{ once: true }}
+        style={{
+          backgroundImage: `url(${image3})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
       >
-        <Link
-          to="/contact"
-          className={themedClass(
-            "px-6 py-4 rounded-full font-semibold mt-4 sm:mt-0 inline-block text-center",
-            "bg-[#22c55e] text-white",   // Dark mode
-            "bg-green-600 text-white"    // Light mode
-          )}
-        >
-          {t("subscribe", language)}
-        </Link>
-      </motion.div>
-    </div>
-  </div>
-</motion.section>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+        <div className="relative z-10 max-w-3xl mx-auto">
+          {/* Heading */}
+          <h2
+            className={themedClass(
+              "text-3xl md:text-4xl font-bold mb-6",
+              "text-white",
+              "text-white"
+            )}
+          >
+            {t("newsletterTitle", language)}
+          </h2>
+
+          {/* Paragraph */}
+          <p
+            className={themedClass(
+              "max-w-2xl mx-auto mb-6",
+              "text-gray-200",
+              "text-white"
+            )}
+          >
+            {t("newsletterDesc", language)}
+          </p>
+
+          {/* Email + Subscribe Button */}
+          <div className="flex justify-center gap-4 flex-col sm:flex-row max-w-xl mx-auto">
+            <input
+              type="email"
+              placeholder={t("emailPlaceholder", language)}
+              className="p-4 rounded-full w-full sm:flex-1 text-white-800 focus:outline-none"
+            />
+            <motion.div
+              whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(0,0,0,0.2)" }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block"
+            >
+              <Link
+                to="/contact"
+                className={ctaButtonClass}
+              >
+                {t("subscribe", language)}
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
 
     </div>
   );

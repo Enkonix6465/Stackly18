@@ -250,47 +250,44 @@ const Home2 = () => {
     return () => intervals.forEach((i) => clearInterval(i));
   }, []);
 
+  // Add this CTA button class for consistency
+  const ctaButtonClass = "px-8 py-3 md:py-4 md:px-10 font-semibold rounded-full shadow-lg transition duration-300 transform bg-green-500 text-white hover:bg-green-600 hover:scale-110 inline-block text-center";
+
   return (
     <div className={themedClass(
       "font-sans min-h-screen transition-colors duration-500",
       "bg-gray-900 text-gray-100",
       "bg-white text-gray-800"
     )}>
-      
-
       {/* Section 1: Hero Banner */}
       <section className={themedClass(
-              "relative h-screen flex items-center justify-center",
-              "bg-black",
-              "bg-black"
-            )}>
-              <video
-                src={vedio}
-                autoPlay
-                loop
-                muted
-                className="absolute inset-0 w-full h-full object-cover opacity-60"
-              />
-              <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6"
-                style={{ color: theme === 'dark' ? '#fff' : '#fff' }}>
-                <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fadeInDown">
-                  {t('heroTitle')}
-                </h1>
-                <p className="text-lg md:text-2xl mb-6 animate-fadeInUp">
-                  {t('heroSubtitle')}
-                </p>
-                <a
-                  href="/about"
-                  className={themedClass(
-                    "px-6 py-3 font-semibold rounded-lg shadow-lg transition duration-300 animate-fadeInUp",
-                    "bg-[#00ff3c] text-white hover:bg-green-600",
-                    "bg-green-500 text-white hover:bg-green-600"
-                  )}
-                >
-                  {t('heroCta')}
-                </a>
-              </div>
-            </section>
+        "relative h-screen flex items-center justify-center",
+        "bg-black",
+        "bg-black"
+      )}>
+        <video
+          src={vedio}
+          autoPlay
+          loop
+          muted
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        />
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6"
+          style={{ color: "#fff" }}>
+          <h2 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
+            {t('heroTitle')}
+          </h2>
+          <p className="text-lg md:text-2xl mb-6 drop-shadow">
+            {t('heroSubtitle')}
+          </p>
+          <a
+            href="/about"
+            className={ctaButtonClass}
+          >
+            {t('heroCta')}
+          </a>
+        </div>
+      </section>
 
       {/* Section 2: Our Services */}
       <section className={themedClass(
@@ -299,13 +296,13 @@ const Home2 = () => {
         "bg-green-50"
       )}>
         <h2 className={themedClass(
-          "text-4xl font-extrabold text-center mb-16 animate-fadeInDown",
+          "text-4xl md:text-5xl font-extrabold text-center mb-16 drop-shadow-lg",
           "text-white",
           "text-green-800"
         )}>
           {t('servicesHeading')}
         </h2>
-
+        {/* ...existing services grid... */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-full mx-auto">
           {services.map((service, i) => {
             let animationClass = i % 3 === 0 ? "animate-fadeInLeft" : i % 3 === 1 ? "animate-fadeInRight" : "animate-fadeInUp";
@@ -336,7 +333,7 @@ const Home2 = () => {
             );
           })}
         </div>
-        {/* Animations */}
+        {/* ...animations style... */}
         <style>{`
           @keyframes fadeInDown {
             0% { opacity: 0; transform: translateY(-30px); }
@@ -380,7 +377,7 @@ const Home2 = () => {
           </div>
           <div className="md:w-1/2 animate-fadeInRight">
             <h2 className={themedClass(
-              "text-5xl font-extrabold mb-6 animate-slideInDown",
+              "text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg",
               "text-white",
               "text-green-800"
             )}>
@@ -423,12 +420,13 @@ const Home2 = () => {
         "bg-white"
       )}>
         <h2 className={themedClass(
-          "text-4xl font-extrabold text-center mb-16 animate-zoomIn",
+          "text-4xl md:text-5xl font-extrabold text-center mb-16 drop-shadow-lg",
           "text-white",
           "text-green-800"
         )}>
           {t('testimonialsHeading')}
         </h2>
+        {/* ...existing testimonials grid... */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
@@ -501,10 +499,11 @@ const Home2 = () => {
         "bg-white"
       )}>
         <h2 className={themedClass(
-          "text-4xl font-semibold mb-12 animate-fadeInUp",
+          "text-4xl md:text-5xl font-extrabold mb-12 drop-shadow-lg",
           "text-white",
-          ""
+          "text-green-800"
         )}>{t('blogHeading')}</h2>
+        {/* ...existing blog cards... */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[t('blogCard1'), t('blogCard2'), t('blogCard3')].map((blog, i) => (
             <div key={i} className={themedClass(
@@ -527,41 +526,38 @@ const Home2 = () => {
         </div>
       </section>
 
-    
-      
-
       {/* Section 7cd: Contact CTA */}
       <section
-      className="relative w-full py-24 px-6 text-center overflow-hidden transition-colors duration-500"
-      style={{
-        backgroundImage: `url(${backgroundImage6})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        className="relative w-full py-24 px-6 text-center overflow-hidden transition-colors duration-500"
+        style={{
+          backgroundImage: `url(${backgroundImage6})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full px-6 md:px-12 text-left md:text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-         {t('contactHeading')}
-        </h2>
+        {/* Content */}
+        <div className="relative z-10 w-full px-6 md:px-12 text-left md:text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-lg">
+            {t('contactHeading')}
+          </h2>
 
-        <p className="mb-8 text-lg md:text-xl max-w-2xl mx-auto text-gray-200">
-          {t('contactDesc')}
-        </p>
+          <p className="mb-8 text-lg md:text-xl max-w-2xl mx-auto text-gray-200">
+            {t('contactDesc')}
+          </p>
 
-        {/* Contact Button */}
-        <Link
-          to="/contact"
-          className="px-8 py-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 inline-block text-center bg-[green] hover:bg-green-600 text-white"
-        >
-          {t('contactCta')}
-        </Link>
-      </div>
-    </section>
+          {/* Contact Button */}
+          <Link
+            to="/contact"
+            className={ctaButtonClass}
+          >
+            {t('contactCta')}
+          </Link>
+        </div>
+      </section>
     </div>
   );
 };

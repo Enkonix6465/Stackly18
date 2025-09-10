@@ -36,8 +36,6 @@ const Header = () => {
       english: 'English',
       arabic: 'Arabic',
       hebrew: 'Hebrew',
-      backToAdmin: 'Back to Admin Dashboard',
-      userDashboard: 'User Dashboard',
       logout: 'Logout'
     },
     ar: {
@@ -59,8 +57,6 @@ const Header = () => {
       english: 'الإنجليزية',
       arabic: 'العربية',
       hebrew: 'العبرية',
-      backToAdmin: 'العودة إلى لوحة تحكم المشرف',
-      userDashboard: 'لوحة تحكم المستخدم',
       logout: 'تسجيل الخروج'
     },
     he: {
@@ -82,8 +78,6 @@ const Header = () => {
       english: 'אנגלית',
       arabic: 'ערבית',
       hebrew: 'עברית',
-      backToAdmin: 'חזרה ללוח ניהול',
-      userDashboard: 'לוח משתמש',
       logout: 'התנתקות'
     }
   };
@@ -140,7 +134,6 @@ const Header = () => {
     return initials || '?';
   };
 
-  const email = (localStorage.getItem('email') || '').trim();
   const initials = getInitials();
 
   // Mobile menu links
@@ -163,7 +156,11 @@ const Header = () => {
         </div>
       )}
 
-      <Link to="/about" className="py-2 px-4 hover:bg-green-100 rounded" onClick={toggleMobileMenu}>{t('about')}</Link>
+   
+<Link to="/about" className={`${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-green-500 transition-colors duration-200 py-2`}>
+  {t('about')}
+</Link>
+
 
       {/* Services Dropdown */}
       <button
@@ -207,7 +204,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden min-[480px]:flex items-center space-x-8">
+          <div className="hidden min-[480px]:flex flex-wrap items-center gap-x-8 gap-y-2">
             {/* Home Dropdown */}
             <div
               className="relative"
@@ -310,22 +307,6 @@ const Header = () => {
               </button>
               {isAvatarDropdownOpen && (
                 <div className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg border py-2 z-50 ${theme === 'dark' ? 'bg-[#1E2A38] border-[#141B25]' : 'bg-white border-gray-200'}`}>
-                  {email === 'admin@enkonix.in' && (
-                    <button
-                      className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-green-500' : 'text-gray-800 hover:bg-green-100'}`}
-                      onClick={() => { setIsAvatarDropdownOpen(false); navigate('/admindashboard'); }}
-                    >
-                      {t('backToAdmin')}
-                    </button>
-                  )}
-                  {email && email !== 'admin@enkonix.in' && (
-                    <button
-                      className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-green-500' : 'text-gray-800 hover:bg-green-100'}`}
-                      onClick={() => { setIsAvatarDropdownOpen(false); navigate('/userdashboard'); }}
-                    >
-                      {t('userDashboard')}
-                    </button>
-                  )}
                   <button
                     className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-green-500' : 'text-gray-800 hover:bg-green-100'}`}
                     onClick={() => { setIsAvatarDropdownOpen(false); window.location.href = '/'; }}
@@ -397,22 +378,6 @@ const Header = () => {
               </button>
               {isAvatarDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-40 rounded-md shadow-lg border py-2 z-50 bg-white border-gray-200">
-                  {email === 'admin@enkonix.in' && (
-                    <button
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-green-100"
-                      onClick={() => { setIsAvatarDropdownOpen(false); navigate('/admindashboard'); toggleMobileMenu(); }}
-                    >
-                      {t('backToAdmin')}
-                    </button>
-                  )}
-                  {email && email !== 'admin@enkonix.in' && (
-                    <button
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-green-100"
-                      onClick={() => { setIsAvatarDropdownOpen(false); navigate('/userdashboard'); toggleMobileMenu(); }}
-                    >
-                      {t('userDashboard')}
-                    </button>
-                  )}
                   <button
                     className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-green-100"
                     onClick={() => { setIsAvatarDropdownOpen(false); window.location.href = '/'; toggleMobileMenu(); }}
